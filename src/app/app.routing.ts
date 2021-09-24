@@ -3,16 +3,20 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
+import { HomeLayoutComponent } from './containers/home-layout/home-layout.component';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
+import { ReinforcementLearningComponent } from './views/pages/reinforcement-learning/reinforcement-learning.component';
+import { ReproductionRateComponent } from './views/pages/reproduction-rate/reproduction-rate.component';
+import { UnemploymentRateComponent } from './views/pages/unemployment-rate/unemployment-rate.component';
 import { RegisterComponent } from './views/register/register.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    component: HomeLayoutComponent,
     pathMatch: 'full',
   },
   {
@@ -50,6 +54,18 @@ export const routes: Routes = [
       title: 'Home'
     },
     children: [
+      {
+        path: 'reproduction-rate',
+        component: ReproductionRateComponent
+      },
+      {
+        path: 'unemployment-rate',
+        component: UnemploymentRateComponent
+      },
+      {
+        path: 'reinforcement-learning',
+        component: ReinforcementLearningComponent
+      },
       {
         path: 'base',
         loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)

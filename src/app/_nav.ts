@@ -2,6 +2,28 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
+    title: true,
+    name: 'Explore the platform'
+  },
+  {
+    name: 'Reproduction Rate',
+    url: '/reproduction-rate',
+    icon: 'icon-graph'
+    
+  },
+  {
+    name: 'Unemployment Rate',
+    url: '/unemployment-rate',
+    icon: 'icon-briefcase'
+    
+  },
+  {
+    name: 'Reinforcement Learning',
+    url: '/reinforcement-learning',
+    icon: 'icon-speedometer'
+    
+  },
+  {
     name: 'Dashboard',
     url: '/dashboard',
     icon: 'icon-speedometer',

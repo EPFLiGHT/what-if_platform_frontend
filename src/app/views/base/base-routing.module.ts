@@ -12,7 +12,6 @@ import { PaginationsComponent } from './paginations.component';
 import { PopoversComponent } from './popovers.component';
 import { ProgressComponent } from './progress.component';
 import { TooltipsComponent } from './tooltips.component';
-import { NavbarsComponent } from './navbars/navbars.component';
 
 const routes: Routes = [
   {
@@ -102,13 +101,6 @@ const routes: Routes = [
           title: 'Tooltips'
         }
       },
-      {
-        path: 'navbars',
-        component: NavbarsComponent,
-        data: {
-          title: 'Navbars'
-        }
-      }
     ]
   }
 ];
