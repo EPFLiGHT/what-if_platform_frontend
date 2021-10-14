@@ -43,6 +43,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { HomeLayoutComponent } from './containers/home-layout/home-layout.component';
+import { PagesModule } from './views/pages/pages.module';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { HomeLayoutComponent } from './containers/home-layout/home-layout.compon
     ChartsModule,
     IconModule,
     IconSetModule.forRoot(),
+    PagesModule
   ],
   declarations: [
     AppComponent,
@@ -68,7 +70,7 @@ import { HomeLayoutComponent } from './containers/home-layout/home-layout.compon
     P500Component,
     LoginComponent,
     RegisterComponent,
-    HomeLayoutComponent,
+    HomeLayoutComponent
   ],
   providers: [
     {

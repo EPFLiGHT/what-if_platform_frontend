@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReproductionRateComponent } from './reproduction-rate/reproduction-rate.component';
 import { UnemploymentRateComponent } from './unemployment-rate/unemployment-rate.component';
 import { ReinforcementLearningComponent } from './reinforcement-learning/reinforcement-learning.component';
+import { ComponentsModule } from '../components/components.module';
 
 
 
@@ -13,7 +14,8 @@ import { ReinforcementLearningComponent } from './reinforcement-learning/reinfor
     ReinforcementLearningComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ComponentsModule
   ]
 })
 export class PagesModule { }

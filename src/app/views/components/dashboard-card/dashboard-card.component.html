@@ -1,0 +1,13 @@
+<div class="card w-100 text-white">
+    <div class="card-header">
+        <div class="p-0 float-right">
+            <i class="{{ rightIcon }}"></i>
+        </div>
+        <div class="text-value">
+            <i *ngIf="leftIcon" class="{{ leftIcon }}"></i> {{ titleText }}
+        </div>
+    </div>
+    <div class="card-body align-items-center d-flex justify-content-center py-0">
+        <div class="mb-5"> {{ actionName }} </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+:host {
+    --dynamic-color: #20a8d8;
+    --dynamic-color-alpha: #20a8d8d0;
+}
+
+@mixin background-color($color, $opacity: 1) {
+    background-color: rgba($color, $opacity) !important;
+}
+
+.card {
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+
+    height: 180px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: var(--dynamic-color);
+    }
+}
+
+.card-body {
+    -webkit-transition: font-size 300ms linear;
+    -ms-transition: font-size 300ms linear;
+    transition: font-size 300ms linear;
+
+    background-color: var(--dynamic-color-alpha);
+
+    font-size:1.7em;
+    font-weight: 500;
+
+    &:hover {
+        font-size: 1.8em;
+    }
+}
+
+.card-header {
+    background-color: var(--dynamic-color-alpha);
+
+    border: none !important;
+}
+
+
