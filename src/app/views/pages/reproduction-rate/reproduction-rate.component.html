@@ -1,20 +1,87 @@
+<app-selection-modal
+  #countrySelection
+  [modalTitle]="'Country selection'"
+  (saveRequest)="saveCountry($event)"
+>
+  <form modalContent>
+    <div class="form-group">
+      <label for="country">Select a country: </label>
+      <ng-select
+        name="country"
+        [items]="countries"
+        bindLabel="name"
+        bindValue="id"
+        [(ngModel)]="selectedCountry"
+      >
+      </ng-select>
+    </div>
+  </form>
+</app-selection-modal>
+
+<app-selection-modal
+  #periodSelection
+  [modalTitle]="'Period selection'"
+  (saveRequest)="savePeriod($event)"
+>
+  <form modalContent>
+    <ngb-datepicker
+      #dp
+      [minDate]="{ year: 2020, month: 4, day: 1 }"
+      [maxDate]="{ year: 2021, month: 5, day: 31 }"
+      [startDate]="{ year: 2020, month: 4 }"
+      (dateSelect)="onDateSelection($event)"
+      [displayMonths]="2"
+      [dayTemplate]="t"
+      outsideDays="hidden"
+    >
+    </ngb-datepicker>
+
+    <ng-template #t let-date let-focused="focused">
+      <span
+        class="custom-day"
+        [class.focused]="focused"
+        [class.range]="isRange(date)"
+        [class.faded]="isHovered(date) || isInside(date)"
+        (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null"
+      >
+        {{ date.day }}
+      </span>
+    </ng-template>
+  </form>
+</app-selection-modal>
 
 <div class="animated fadeIn">
-    <div class="row mt-4">
-        <div class="col-sm-12 col-lg-4">
-            <app-dashboard-card [leftIcon]="'flag-icon flag-icon-ch'" [titleText]="'Switzerland'"
-                [actionName]="'Pick your country'" [rightIcon]="'icon-location-pin'" [bgColor] = "'#20a8d8'"></app-dashboard-card>
-        </div>
-        <!--/.col-->
-        <div class="col-sm-12 col-lg-4">
-            <app-dashboard-card [titleText]="'14/08 - 26/08'"
-                [actionName]="'Choose a period'" [rightIcon]="'icon-calendar'" [bgColor] = "'#f86c6b'"></app-dashboard-card>
-        </div>
-        <!--/.col-->
-        <div class="col-sm-12 col-lg-4">
-            <app-dashboard-card [titleText]="'6/10 changed features'"
-            [actionName]="'Change your features'" [rightIcon]="'icon-pencil'" [bgColor] = "'#ffc107'"></app-dashboard-card>
-        </div>
+  <div class="row mt-4">
+    <div class="col-sm-12 col-lg-4">
+      <app-dashboard-card
+        [leftIcon]="selectedCountryObject.flag"
+        [titleText]="selectedCountryObject.name"
+        [actionName]="'Pick your country'"
+        [rightIcon]="'icon-location-pin'"
+        [bgColor]="'#20a8d8'"
+        (click)="countrySelection.open()"
+      ></app-dashboard-card>
     </div>
-    <!--/.row-->
+    <!--/.col-->
+    <div class="col-sm-12 col-lg-4">
+      <app-dashboard-card
+        [titleText]="selectedPeriod"
+        [actionName]="'Choose a period'"
+        [rightIcon]="'icon-calendar'"
+        [bgColor]="'#f86c6b'"
+        (click)="periodSelection.open()"
+      ></app-dashboard-card>
+    </div>
+    <!--/.col-->
+    <div class="col-sm-12 col-lg-4">
+      <app-dashboard-card
+        [titleText]="'6/10 changed features'"
+        [actionName]="'Change your features'"
+        [rightIcon]="'icon-pencil'"
+        [bgColor]="'#ffc107'"
+      ></app-dashboard-card>
+    </div>
+  </div>
+  <!--/.row-->
 </div>

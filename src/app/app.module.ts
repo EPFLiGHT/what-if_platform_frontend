@@ -44,6 +44,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { HomeLayoutComponent } from './containers/home-layout/home-layout.component';
 import { PagesModule } from './views/pages/pages.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import { PagesModule } from './views/pages/pages.module';
     ChartsModule,
     IconModule,
     IconSetModule.forRoot(),
-    PagesModule
+    PagesModule,
+    NgbModule
   ],
   declarations: [
     AppComponent,

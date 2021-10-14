@@ -4,7 +4,9 @@ import { ReproductionRateComponent } from './reproduction-rate/reproduction-rate
 import { UnemploymentRateComponent } from './unemployment-rate/unemployment-rate.component';
 import { ReinforcementLearningComponent } from './reinforcement-learning/reinforcement-learning.component';
 import { ComponentsModule } from '../components/components.module';
-
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +17,10 @@ import { ComponentsModule } from '../components/components.module';
   ],
   imports: [
     CommonModule,
-    ComponentsModule
+    ComponentsModule,
+    NgbModule,
+    NgSelectModule,
+    FormsModule
   ]
 })
 export class PagesModule { }

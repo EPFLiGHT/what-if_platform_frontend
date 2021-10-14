@@ -1,18 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardCardComponent } from './dashboard-card/dashboard-card.component';
-
-
+import { SelectionModalComponent } from './selection-modal/selection-modal.component';
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    DashboardCardComponent
-  ],
+    DashboardCardComponent, 
+    SelectionModalComponent],
   exports: [
-    DashboardCardComponent
+    DashboardCardComponent, 
+    SelectionModalComponent
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule, 
+    NgbModule,
+    NgSelectModule,
+    FormsModule
+  ],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}
