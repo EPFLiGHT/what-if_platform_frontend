@@ -7,7 +7,7 @@ import { ComponentsModule } from '../components/components.module';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     ComponentsModule,
     NgbModule,
     NgSelectModule,
-    FormsModule
+    FormsModule,
+    ChartsModule
   ]
 })
 export class PagesModule { }
