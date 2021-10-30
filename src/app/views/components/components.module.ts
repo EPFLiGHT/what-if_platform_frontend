@@ -5,14 +5,17 @@ import { SelectionModalComponent } from './selection-modal/selection-modal.compo
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { SingleFeatureSelectionComponent } from './single-feature-selection/single-feature-selection.component';
 
 @NgModule({
   declarations: [
     DashboardCardComponent, 
-    SelectionModalComponent],
+    SelectionModalComponent, 
+    SingleFeatureSelectionComponent],
   exports: [
     DashboardCardComponent, 
-    SelectionModalComponent
+    SelectionModalComponent,
+    SingleFeatureSelectionComponent
   ],
   imports: [
     CommonModule, 

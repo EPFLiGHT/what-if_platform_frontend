@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -49,6 +50,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     AppAsideModule,
@@ -77,7 +79,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   providers: [
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: PathLocationStrategy
     },
     IconSetService,
   ],

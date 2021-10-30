@@ -74,7 +74,9 @@
       ></app-dashboard-card>
     </div>
     <!--/.col-->
-    <div class="col-sm-12 col-lg-4">
+    <div class="col-sm-12 col-lg-4"
+    [routerLink]="['/feature-selection', selectedCountryObject.iso_code]"
+    [queryParams]="{start_date: startDate(), end_date: endDate(), country_name: selectedCountryObject.name}">
       <app-dashboard-card
         [titleText]="'6/10 changed features'"
         [actionName]="'Change your features'"

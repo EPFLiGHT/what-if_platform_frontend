@@ -1,0 +1,47 @@
+<div class="mt-2">
+  <h2>Features selection for {{ country_name }}</h2>
+  <p class="text-muted">
+    Change the values of your features for the period: {{ start_date }} :
+    {{ end_date }}
+  </p>
+</div>
+
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem>
+    <a ngbNavLink>Constant features</a>
+    <ng-template ngbNavContent>
+      <h5>Demographic features</h5>
+      <hr />
+
+      <app-single-feature-selection
+        *ngFor="let feature of features.demographic"
+        [featureName]="feature.fullName"
+        [defaultValue]="feature.default"
+        (change)="changeValue('demographic', feature.name, $event)"
+      >
+      </app-single-feature-selection>
+
+      <h5>Sanitary features</h5>
+      <hr />
+    </ng-template>
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink>Variable features</a>
+    <ng-template ngbNavContent>Second content</ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>
+
+<div class="row justify-content-around mt-5">
+  <div class="col-4">
+    <button type="button" class="btn btn-block btn-lg btn-danger">
+      Go back
+    </button>
+  </div>
+
+  <div class="col-4">
+    <button type="button" class="btn btn-block btn-lg btn-success">
+      Predict
+    </button>
+  </div>
+</div>

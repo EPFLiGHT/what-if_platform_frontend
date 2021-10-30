@@ -1,3 +1,4 @@
+import { PredictionsService } from './../../../services/predictions.service';
 import { Chart } from './../../../model/chart.model';
 import { Country } from './../../../model/country.model';
 import { SelectionModalComponent } from './../../components/selection-modal/selection-modal.component';
@@ -48,9 +49,11 @@ export class ReproductionRateComponent implements OnInit {
   private toDate: NgbDate | null = null;
 
   private calendar: NgbCalendar;
+  private predictionsService : PredictionsService;
 
-  constructor(calendar: NgbCalendar) {
+  constructor(calendar: NgbCalendar, predictionsService: PredictionsService) {
     this.calendar = calendar;
+    this.predictionsService = predictionsService;
   }
 
   ngOnInit() {
@@ -65,6 +68,10 @@ export class ReproductionRateComponent implements OnInit {
 
     this.chart.y = JSON.parse(JSON.stringify(this[this.selectedCountryObject.iso_code].y));
     this.chart.xLabels = this[this.selectedCountryObject.iso_code].x;
+
+    this.predictionsService.getPredictions().subscribe(data => {
+      console.log(data);
+    });
   }
 
   public random(min: number, max: number) {
@@ -140,16 +147,20 @@ export class ReproductionRateComponent implements OnInit {
     );
   }
 
+  startDate() {
+    return this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day;
+  }
+
+  endDate() {
+    return this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day;
+  } 
+
   private updateChart() {
     this.chart.y = JSON.parse(JSON.stringify(this[this.selectedCountryObject.iso_code].y));
     this.chart.xLabels = this[this.selectedCountryObject.iso_code].x;
 
-    let startDate = new Date(
-      this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day
-    );
-    let endDate = new Date(
-      this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day
-    );
+    let startDate = new Date(this.startDate());
+    let endDate = new Date(this.endDate());
 
     let startIndex = this.chart.xLabels.findIndex((currElement) =>
       this.isEqual(new Date(currElement), startDate)

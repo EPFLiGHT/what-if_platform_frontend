@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReproductionRateComponent } from './reproduction-rate/reproduction-rate.component';
@@ -8,12 +9,14 @@ import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
+import { FeaturesSelectionComponent } from './features-selection/features-selection.component';
 
 @NgModule({
   declarations: [
     ReproductionRateComponent,
     UnemploymentRateComponent,
-    ReinforcementLearningComponent
+    ReinforcementLearningComponent,
+    FeaturesSelectionComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +24,8 @@ import { ChartsModule } from 'ng2-charts';
     NgbModule,
     NgSelectModule,
     FormsModule,
-    ChartsModule
+    ChartsModule,
+    RouterModule
   ]
 })
 export class PagesModule { }
