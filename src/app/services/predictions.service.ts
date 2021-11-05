@@ -8,11 +8,11 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class PredictionsService {
 
-  private url: string = "http://localhost:105/api/v1/CHE/predict";
+  private url: string = "http://localhost:105/api/v1/";
 
   constructor(private http: HttpClient) { }
 
-  getPredictions() {
-    return this.http.post<Object>(this.url, {'start_date': '2020-04-01', 'end_date': '2020-05-01'});
+  getPredictions(country, data, endpoint="/predict_personalized") {
+    return this.http.post<Object>(this.url + country + endpoint, data);
   }
 }

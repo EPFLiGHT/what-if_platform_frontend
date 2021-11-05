@@ -76,9 +76,9 @@
     <!--/.col-->
     <div class="col-sm-12 col-lg-4"
     [routerLink]="['/feature-selection', selectedCountryObject.iso_code]"
-    [queryParams]="{start_date: startDate(), end_date: endDate(), country_name: selectedCountryObject.name}">
+    [queryParams]="{start_date: formatDate(getStartDate()), end_date: formatDate(getEndDate()), country_name: selectedCountryObject.name}">
       <app-dashboard-card
-        [titleText]="'6/10 changed features'"
+        [titleText]=""
         [actionName]="'Change your features'"
         [rightIcon]="'icon-pencil'"
         [bgColor]="'#ffc107'"

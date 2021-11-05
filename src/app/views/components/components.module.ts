@@ -4,24 +4,27 @@ import { DashboardCardComponent } from './dashboard-card/dashboard-card.componen
 import { SelectionModalComponent } from './selection-modal/selection-modal.component';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SingleFeatureSelectionComponent } from './single-feature-selection/single-feature-selection.component';
+import { StringencyLevelComponent } from './stringency-level/stringency-level.component';
 
 @NgModule({
   declarations: [
     DashboardCardComponent, 
     SelectionModalComponent, 
-    SingleFeatureSelectionComponent],
+    SingleFeatureSelectionComponent, StringencyLevelComponent],
   exports: [
     DashboardCardComponent, 
     SelectionModalComponent,
-    SingleFeatureSelectionComponent
+    SingleFeatureSelectionComponent,
+    StringencyLevelComponent
   ],
   imports: [
     CommonModule, 
     NgbModule,
     NgSelectModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
 })
 export class ComponentsModule {}

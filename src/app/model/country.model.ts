@@ -1,3 +1,4 @@
+// Definition of a Country entity for the frontend
 export class Country {
     id: number;
     iso_code: string;

@@ -3,6 +3,7 @@ import { Chart } from './../../../model/chart.model';
 import { Country } from './../../../model/country.model';
 import { SelectionModalComponent } from './../../components/selection-modal/selection-modal.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import CHE from '../../../../assets/json/RE/CHE.json';
 import FRA from '../../../../assets/json/RE/FRA.json';
@@ -44,14 +45,18 @@ export class ReproductionRateComponent implements OnInit {
     { id: 4, name: 'Spain', iso_code: 'ESP', flag: 'flag-icon flag-icon-es' },
   ];
 
-  private hoveredDate: NgbDate | null = null;
+  private hoveredDate: NgbDate;
   private fromDate: NgbDate;
-  private toDate: NgbDate | null = null;
+  private toDate: NgbDate;
 
   private calendar: NgbCalendar;
-  private predictionsService : PredictionsService;
+  private predictionsService: PredictionsService;
 
-  constructor(calendar: NgbCalendar, predictionsService: PredictionsService) {
+  constructor(
+    calendar: NgbCalendar,
+    predictionsService: PredictionsService,
+    private datePipe: DatePipe
+  ) {
     this.calendar = calendar;
     this.predictionsService = predictionsService;
   }
@@ -66,19 +71,36 @@ export class ReproductionRateComponent implements OnInit {
 
     this.chart = new Chart();
 
-    this.chart.y = JSON.parse(JSON.stringify(this[this.selectedCountryObject.iso_code].y));
-    this.chart.xLabels = this[this.selectedCountryObject.iso_code].x;
-
-    this.predictionsService.getPredictions().subscribe(data => {
-      console.log(data);
-    });
+    if (!this.loadPredictions()) {
+      this.chart.y = JSON.parse(
+        JSON.stringify(this[this.selectedCountryObject.iso_code].y)
+      );
+      this.chart.xLabels = this[this.selectedCountryObject.iso_code].x;
+    }
   }
 
   public random(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  loadPredictions(): boolean {
+    let predictionsString = localStorage.getItem('predictions');
+    if (predictionsString) {
+      let predictions = JSON.parse(predictionsString);
+      this.chart.y = predictions.y;
+      this.chart.xLabels = predictions.x;
+
+      localStorage.removeItem('predictions');
+
+      return true;
+    }
+
+    return false;
+  }
+
   onDateSelection(date: NgbDate) {
+    console.log('onDateSelection called');
+
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
@@ -147,20 +169,33 @@ export class ReproductionRateComponent implements OnInit {
     );
   }
 
-  startDate() {
-    return this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day;
+  formatDate(date) {
+    if (date) return this.datePipe.transform(new Date(date), 'yyyy-MM-dd');
+    return null;
   }
 
-  endDate() {
-    return this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day;
-  } 
+  getStartDate() {
+    return (
+      this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day
+    );
+  }
+
+  getEndDate() {
+    if (this.toDate) {
+      return this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day;
+    }
+
+    return null;
+  }
 
   private updateChart() {
-    this.chart.y = JSON.parse(JSON.stringify(this[this.selectedCountryObject.iso_code].y));
+    this.chart.y = JSON.parse(
+      JSON.stringify(this[this.selectedCountryObject.iso_code].y)
+    );
     this.chart.xLabels = this[this.selectedCountryObject.iso_code].x;
 
-    let startDate = new Date(this.startDate());
-    let endDate = new Date(this.endDate());
+    let startDate = new Date(this.getStartDate());
+    let endDate = new Date(this.getEndDate());
 
     let startIndex = this.chart.xLabels.findIndex((currElement) =>
       this.isEqual(new Date(currElement), startDate)
@@ -169,11 +204,10 @@ export class ReproductionRateComponent implements OnInit {
       this.isEqual(new Date(currElement), endDate)
     );
 
-    this.chart.xLabels = this.chart.xLabels.slice(startIndex, endIndex+1);
-    
-    this.chart.y[0].data = this.chart.y[0].data.slice(startIndex, endIndex+1);
-    this.chart.y[1].data = this.chart.y[1].data.slice(startIndex, endIndex+1);
-    this.chart.y[2].data = this.chart.y[2].data.slice(startIndex, endIndex+1);
+    this.chart.xLabels = this.chart.xLabels.slice(startIndex, endIndex + 1);
 
+    this.chart.y[0].data = this.chart.y[0].data.slice(startIndex, endIndex + 1);
+    this.chart.y[1].data = this.chart.y[1].data.slice(startIndex, endIndex + 1);
+    this.chart.y[2].data = this.chart.y[2].data.slice(startIndex, endIndex + 1);
   }
 }

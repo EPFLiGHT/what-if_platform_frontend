@@ -1,6 +1,7 @@
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 
+// Definition of a Chart entity for the frontend
 export class Chart {
   public y: Array<any>;
   public xLabels: Array<any>;

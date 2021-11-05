@@ -1,0 +1,9 @@
+<ngb-rating [(rate)]="stringency" [max]="maxLevel">
+  <ng-template let-fill="fill" let-index="index">
+    <span class="star" [class.filled]="fill === 100">&#9679;</span>
+  </ng-template>
+</ngb-rating>
+<pre
+  class="mt-2"
+  class="feature-text-small"
+>Stringency: <b>{{ stringency }}</b></pre>

@@ -1,0 +1,26 @@
+$breakpoint-small: 1430px;
+
+.feature-text {
+  font-size: 1em;
+  @media (max-width: $breakpoint-small) {
+    font-size: 0.8em;
+  }
+}
+
+.feature-text-small {
+  font-size: 0.8em;
+  @media (max-width: $breakpoint-small) {
+    font-size: 0.6em;
+  }
+}
+
+.star {
+  font-size: 1.1rem;
+  color: #b0c4de;
+  @media (max-width: $breakpoint-small) {
+    font-size: 0.8em;
+  }
+}
+.filled {
+  color: #0077b6;
+}

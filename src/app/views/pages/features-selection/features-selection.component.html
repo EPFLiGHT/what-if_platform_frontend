@@ -1,8 +1,8 @@
 <div class="mt-2">
-  <h2>Features selection for {{ country_name }}</h2>
+  <h2>Features selection for {{ countryName }}</h2>
   <p class="text-muted">
-    Change the values of your features for the period: {{ start_date }} :
-    {{ end_date }}
+    Change the values of your features for the period: {{ startDate }} :
+    {{ endDate }}
   </p>
 </div>
 
@@ -10,37 +10,122 @@
   <li ngbNavItem>
     <a ngbNavLink>Constant features</a>
     <ng-template ngbNavContent>
-      <h5>Demographic features</h5>
-      <hr />
+      <div [style.display]="isPage[0] ? 'block' : 'none'">
+        <h5>Demographic features</h5>
+        <hr />
 
-      <app-single-feature-selection
-        *ngFor="let feature of features.demographic"
-        [featureName]="feature.fullName"
-        [defaultValue]="feature.default"
-        (change)="changeValue('demographic', feature.name, $event)"
-      >
-      </app-single-feature-selection>
+        <app-single-feature-selection
+          *ngFor="let feature of features.demographic"
+          [featureName]="feature.fullName"
+          [defaultValue]="feature.value"
+          [minValue]="feature.range[0]"
+          [maxValue]="feature.range[1]"
+          (change)="changeValue('demographic', feature.name, $event)"
+        >
+        </app-single-feature-selection>
 
-      <h5>Sanitary features</h5>
-      <hr />
+        <h5>Sanitary features</h5>
+        <hr />
+
+        <app-single-feature-selection
+          *ngFor="let feature of features.sanitary"
+          [featureName]="feature.fullName"
+          [defaultValue]="feature.value"
+          [minValue]="feature.range[0]"
+          [maxValue]="feature.range[1]"
+          (change)="changeValue('sanitary', feature.name, $event)"
+        >
+        </app-single-feature-selection>
+      </div>
+
+      <div [style.display]="isPage[1] ? 'block' : 'none'">
+        <h5>Unemployment rate (%)</h5>
+        <hr />
+
+        <app-single-feature-selection
+          *ngFor="let feature of features.unemployment"
+          [featureName]="feature.fullName"
+          [defaultValue]="feature.value"
+          [minValue]="feature.range[0]"
+          [maxValue]="feature.range[1]"
+          (change)="changeValue('economic', feature.name, $event)"
+        >
+        </app-single-feature-selection>
+      </div>
+
+      <div [style.display]="isPage[2] ? 'block' : 'none'">
+        <h5>GDP (mld)</h5>
+        <hr />
+
+        <app-single-feature-selection
+          *ngFor="let feature of features.gdp"
+          [featureName]="feature.fullName"
+          [defaultValue]="feature.value"
+          [minValue]="feature.range[0]"
+          [maxValue]="feature.range[1]"
+          (change)="changeValue('gdp', feature.name, $event)"
+        >
+        </app-single-feature-selection>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <ngb-pagination
+          [collectionSize]="isPage.length * 10"
+          [(page)]="pageNumber"
+          [directionLinks]="false"
+          (pageChange)="changePage($event)"
+          size="md"
+        ></ngb-pagination>
+      </div>
     </ng-template>
   </li>
   <li ngbNavItem>
     <a ngbNavLink>Variable features</a>
-    <ng-template ngbNavContent>Second content</ng-template>
+    <ng-template ngbNavContent>
+      <table class="table table-striped w-100">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 10%" class="feature-text">#</th>
+            <th
+              scope="col"
+              style="width: 10%"
+              class="feature-text"
+              *ngFor="let feature of features.policies"
+            >
+              {{ feature.fullName }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let date of dates; let i = index">
+            <th scope="row" class="feature-text">{{ date }}</th>
+            <td *ngFor="let f of features.policies; let j = index">
+              <app-stringency-level
+                [stringency]="features.policies[j]['value'][i]"
+                [maxLevel]="features.policies[j]['range'][1]"
+              ></app-stringency-level>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-template>
   </li>
 </ul>
 <div [ngbNavOutlet]="nav"></div>
 
 <div class="row justify-content-around mt-5">
   <div class="col-4">
-    <button type="button" class="btn btn-block btn-lg btn-danger">
+    <button
+      type="button"
+      class="btn btn-block btn-lg btn-danger"
+      [routerLink]="['/reproduction-rate']"
+    >
       Go back
     </button>
   </div>
 
   <div class="col-4">
-    <button type="button" class="btn btn-block btn-lg btn-success">
+    <button type="button" class="btn btn-block btn-lg btn-success" (click)='predict()'>
       Predict
     </button>
   </div>

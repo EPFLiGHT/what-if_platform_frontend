@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { DatePipe } from '@angular/common'
 
 import { IconModule, IconSetModule, IconSetService } from '@coreui/icons-angular';
 
@@ -65,7 +67,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     IconModule,
     IconSetModule.forRoot(),
     PagesModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   declarations: [
     AppComponent,
@@ -81,6 +84,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       provide: LocationStrategy,
       useClass: PathLocationStrategy
     },
+    DatePipe,
     IconSetService,
   ],
   bootstrap: [ AppComponent ]
