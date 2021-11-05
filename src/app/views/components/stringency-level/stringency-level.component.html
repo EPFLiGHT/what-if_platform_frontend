@@ -1,9 +1,12 @@
-<ngb-rating [(rate)]="stringency" [max]="maxLevel">
-  <ng-template let-fill="fill" let-index="index">
-    <span class="star" [class.filled]="fill === 100">&#9679;</span>
-  </ng-template>
-</ngb-rating>
-<pre
-  class="mt-2"
-  class="feature-text-small"
->Stringency: <b>{{ stringency }}</b></pre>
+<div class="w-100 text-left">
+  <ngb-rating [(rate)]="stringency" [max]="maxLevel" [formControl]="ctrl">
+    <ng-template let-fill="fill" let-index="index">
+      <span class="star" [class.filled]="fill === 100">&#9679;</span>
+    </ng-template>
+  </ngb-rating>
+  <pre
+    class="mt-2 mb-0 feature-text-small"
+  >Stringency: <b>{{ stringency }}</b></pre>
+
+  <i class="fa fa-close fa-lg" (click)="ctrl.setValue(null)"></i>
+</div>
