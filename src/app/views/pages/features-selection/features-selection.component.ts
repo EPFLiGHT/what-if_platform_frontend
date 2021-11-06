@@ -409,7 +409,7 @@ export class FeaturesSelectionComponent implements OnInit {
       },
     };
 
-    console.log(data);
+    // console.log(data);
 
     this.predictionsService
       .getPredictions(this.isoCode, data)

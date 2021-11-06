@@ -114,7 +114,6 @@ export class ReproductionRateComponent implements OnInit {
     let predictionsString = localStorage.getItem(Constants.PREDICTION_KEY);
     if (predictionsString) {
       this.chart = JSON.parse(predictionsString);
-      console.log('OK');
       return true;
     }
     return false;
