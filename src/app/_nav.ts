@@ -23,7 +23,7 @@ export const navItems: INavData[] = [
     icon: 'icon-speedometer'
     
   },
-  {
+  /* {
     name: 'Dashboard',
     url: '/dashboard',
     icon: 'icon-speedometer',
@@ -269,5 +269,5 @@ export const navItems: INavData[] = [
     icon: 'icon-layers',
     variant: 'danger',
     attributes: { target: '_blank', rel: 'noopener' }
-  }
+  } */
 ];

@@ -11,7 +11,7 @@
         [items]="countries"
         bindLabel="name"
         bindValue="id"
-        [(ngModel)]="selectedCountry"
+        [(ngModel)]="selectedCountryId"
       >
       </ng-select>
     </div>
@@ -111,11 +111,11 @@
           baseChart
           class="chart"
           [datasets]="chart.y"
-          [labels]="chart.xLabels"
-          [options]="chart.options"
-          [colors]="chart.colors"
-          [legend]="chart.legend"
-          [chartType]="chart.type"
+          [labels]="chart.x"
+          [options]="chartSettings.options"
+          [colors]="chartSettings.color"
+          [legend]="chartSettings.legend"
+          [chartType]="chartSettings.type"
         ></canvas>
       </div>
     </div>

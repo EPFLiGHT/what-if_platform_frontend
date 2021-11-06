@@ -113,7 +113,7 @@
 </ul>
 <div [ngbNavOutlet]="nav"></div>
 
-<div class="row justify-content-around mt-5">
+<div class="row justify-content-around my-5">
   <div class="col-4">
     <button
       type="button"
@@ -125,7 +125,11 @@
   </div>
 
   <div class="col-4">
-    <button type="button" class="btn btn-block btn-lg btn-success" (click)='predict()'>
+    <button
+      type="button"
+      class="btn btn-block btn-lg btn-success"
+      (click)="predict()"
+    >
       Predict
     </button>
   </div>

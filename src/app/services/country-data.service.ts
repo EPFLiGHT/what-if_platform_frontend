@@ -1,3 +1,4 @@
+import { environment as env } from './../../environments/environment';
 import { VariableFeatures } from './../model/feature.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -6,12 +7,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CountryDataService {
-  private prefixUrl: string = 'http://localhost:105/api/v1/';
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getConstantFeatures(country: string, endpoint = '/get_constant_data') {
-    return this.http.get<Object>(this.prefixUrl + country + endpoint);
+    return this.http.get<Object>(env.apiUrl + country + endpoint);
   }
 
   getVariableFeatures(
@@ -20,7 +19,7 @@ export class CountryDataService {
     end_date: string,
     endpoint = '/get_variable_data'
   ) {
-    return this.http.get<VariableFeatures>(this.prefixUrl + country + endpoint, {
+    return this.http.get<VariableFeatures>(env.apiUrl + country + endpoint, {
       params: {
         start_date: start_date,
         end_date: end_date,

@@ -1,4 +1,4 @@
-import { PredictionsService } from './../../../services/predictions.service';
+import { Constants } from './../../../model/constants.model';
 import { Chart } from './../../../model/chart.model';
 import { Country } from './../../../model/country.model';
 import { SelectionModalComponent } from './../../components/selection-modal/selection-modal.component';
@@ -10,7 +10,7 @@ import FRA from '../../../../assets/json/RE/FRA.json';
 import ITA from '../../../../assets/json/RE/ITA.json';
 import ESP from '../../../../assets/json/RE/ESP.json';
 
-import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-reproduction-rate',
@@ -21,17 +21,17 @@ export class ReproductionRateComponent implements OnInit {
   @ViewChild('countrySelection') countrySelection: SelectionModalComponent;
   @ViewChild('periodSelection') periodSelection: SelectionModalComponent;
 
-  chart: Chart;
-
-  selectedPeriod: string;
-
-  selectedCountryObject: Country;
-  selectedCountry: number;
-
-  private CHE = CHE;
-  private FRA = FRA;
-  private ITA = ITA;
-  private ESP = ESP;
+  chartSettings: {
+    options: any;
+    color: Array<any>;
+    legend: boolean;
+    type: string;
+  } = {
+    options: Chart.options,
+    color: Chart.colors,
+    legend: Chart.legend,
+    type: Chart.type,
+  };
 
   countries: Array<Country> = [
     {
@@ -39,68 +39,88 @@ export class ReproductionRateComponent implements OnInit {
       name: 'Switzerland',
       iso_code: 'CHE',
       flag: 'flag-icon flag-icon-ch',
+      fullPredictions: CHE,
     },
-    { id: 2, name: 'Italy', iso_code: 'ITA', flag: 'flag-icon flag-icon-it' },
-    { id: 3, name: 'France', iso_code: 'FRA', flag: 'flag-icon flag-icon-fr' },
-    { id: 4, name: 'Spain', iso_code: 'ESP', flag: 'flag-icon flag-icon-es' },
+    {
+      id: 2,
+      name: 'Italy',
+      iso_code: 'ITA',
+      flag: 'flag-icon flag-icon-it',
+      fullPredictions: ITA,
+    },
+    {
+      id: 3,
+      name: 'France',
+      iso_code: 'FRA',
+      flag: 'flag-icon flag-icon-fr',
+      fullPredictions: FRA,
+    },
+    {
+      id: 4,
+      name: 'Spain',
+      iso_code: 'ESP',
+      flag: 'flag-icon flag-icon-es',
+      fullPredictions: ESP,
+    },
   ];
+
+  chart: Chart;
+
+  selectedCountryObject: Country;
+  selectedCountryId: number;
+
+  selectedPeriod: string;
 
   private hoveredDate: NgbDate;
   private fromDate: NgbDate;
   private toDate: NgbDate;
 
-  private calendar: NgbCalendar;
-  private predictionsService: PredictionsService;
-
-  constructor(
-    calendar: NgbCalendar,
-    predictionsService: PredictionsService,
-    private datePipe: DatePipe
-  ) {
-    this.calendar = calendar;
-    this.predictionsService = predictionsService;
-  }
+  constructor(private datePipe: DatePipe) {}
 
   ngOnInit() {
-    this.selectedCountryObject = this.countries[0];
+    let selectedCountryId = localStorage.getItem(
+      Constants.SELECTED_COUNTRY_ID_KEY
+    );
+    let fromDate = localStorage.getItem(Constants.FROM_DATE_KEY);
+    let toDate = localStorage.getItem(Constants.TO_DATE_KEY);
 
-    this.fromDate = new NgbDate(2020, 4, 1);
-    this.toDate = new NgbDate(2021, 5, 31);
+    this.selectedCountryId = selectedCountryId
+      ? parseInt(selectedCountryId)
+      : Constants.DEAFULT_COUNTRY_KEY;
 
-    this.selectedPeriod = '1/4/2020 - 31/5/2021';
+    this.fromDate = fromDate
+      ? this.convertDateToNgbDate(fromDate)
+      : Constants.DEFAULT_FROM_DATE;
+    this.toDate = toDate
+      ? this.convertDateToNgbDate(toDate)
+      : Constants.DEFAULT_TO_DATE;
 
-    this.chart = new Chart();
+    this.saveCountry(true);
+    this.savePeriod(true);
 
-    if (!this.loadPredictions()) {
-      this.chart.y = JSON.parse(
-        JSON.stringify(this[this.selectedCountryObject.iso_code].y)
-      );
-      this.chart.xLabels = this[this.selectedCountryObject.iso_code].x;
-    }
+    localStorage.removeItem(Constants.PREDICTION_KEY);
   }
 
-  public random(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  private convertDateToNgbDate(date: string | Date): NgbDate {
+    let inputDate = new Date(date);
+    return new NgbDate(
+      inputDate.getFullYear(),
+      inputDate.getMonth() + 1,
+      inputDate.getDate()
+    );
   }
 
-  loadPredictions(): boolean {
-    let predictionsString = localStorage.getItem('predictions');
+  private loadPredictions(): boolean {
+    let predictionsString = localStorage.getItem(Constants.PREDICTION_KEY);
     if (predictionsString) {
-      let predictions = JSON.parse(predictionsString);
-      this.chart.y = predictions.y;
-      this.chart.xLabels = predictions.x;
-
-      localStorage.removeItem('predictions');
-
+      this.chart = JSON.parse(predictionsString);
+      console.log('OK');
       return true;
     }
-
     return false;
   }
 
-  onDateSelection(date: NgbDate) {
-    console.log('onDateSelection called');
-
+  public onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
@@ -111,7 +131,7 @@ export class ReproductionRateComponent implements OnInit {
     }
   }
 
-  isHovered(date: NgbDate) {
+  public isHovered(date: NgbDate) {
     return (
       this.fromDate &&
       !this.toDate &&
@@ -121,11 +141,11 @@ export class ReproductionRateComponent implements OnInit {
     );
   }
 
-  isInside(date: NgbDate) {
+  public isInside(date: NgbDate) {
     return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
   }
 
-  isRange(date: NgbDate) {
+  public isRange(date: NgbDate) {
     return (
       date.equals(this.fromDate) ||
       (this.toDate && date.equals(this.toDate)) ||
@@ -134,29 +154,29 @@ export class ReproductionRateComponent implements OnInit {
     );
   }
 
-  saveCountry(result: boolean) {
+  public saveCountry(result: boolean) {
     if (result) {
       this.selectedCountryObject = this.countries.find(
-        (el) => el.id == this.selectedCountry
+        (el) => el.id == this.selectedCountryId
+      );
+
+      localStorage.setItem(
+        Constants.SELECTED_COUNTRY_ID_KEY,
+        this.selectedCountryId.toString()
       );
 
       this.updateChart();
     }
   }
 
-  savePeriod(result: boolean) {
+  public savePeriod(result: boolean) {
     this.selectedPeriod =
-      this.fromDate.day +
-      '/' +
-      this.fromDate.month +
-      '/' +
-      this.fromDate.year +
+      this.formatDate(this.getStartDate(), 'dd/MM/yyyy') +
       ' - ' +
-      this.toDate.day +
-      '/' +
-      this.toDate.month +
-      '/' +
-      this.toDate.year;
+      this.formatDate(this.getEndDate(), 'dd/MM/yyyy');
+
+    localStorage.setItem(Constants.FROM_DATE_KEY, this.getStartDate());
+    localStorage.setItem(Constants.TO_DATE_KEY, this.getEndDate());
 
     this.updateChart();
   }
@@ -169,45 +189,57 @@ export class ReproductionRateComponent implements OnInit {
     );
   }
 
-  formatDate(date) {
-    if (date) return this.datePipe.transform(new Date(date), 'yyyy-MM-dd');
+  public formatDate(date: string | Date, format = 'yyyy-MM-dd') {
+    if (date) return this.datePipe.transform(new Date(date), format);
     return null;
   }
 
-  getStartDate() {
+  public getStartDate() {
     return (
       this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day
     );
   }
 
-  getEndDate() {
+  public getEndDate() {
     if (this.toDate) {
       return this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day;
     }
-
     return null;
   }
 
   private updateChart() {
-    this.chart.y = JSON.parse(
-      JSON.stringify(this[this.selectedCountryObject.iso_code].y)
-    );
-    this.chart.xLabels = this[this.selectedCountryObject.iso_code].x;
+    if (!this.loadPredictions()) {
+      this.chart = new Chart();
 
-    let startDate = new Date(this.getStartDate());
-    let endDate = new Date(this.getEndDate());
+      this.chart.y = JSON.parse(
+        JSON.stringify(this.selectedCountryObject.fullPredictions.y)
+      );
+      this.chart.x = this.selectedCountryObject.fullPredictions.x;
 
-    let startIndex = this.chart.xLabels.findIndex((currElement) =>
-      this.isEqual(new Date(currElement), startDate)
-    );
-    let endIndex = this.chart.xLabels.findIndex((currElement) =>
-      this.isEqual(new Date(currElement), endDate)
-    );
+      let startDate = new Date(this.getStartDate());
+      let endDate = new Date(this.getEndDate());
 
-    this.chart.xLabels = this.chart.xLabels.slice(startIndex, endIndex + 1);
+      let startIndex = this.chart.x.findIndex((currElement) =>
+        this.isEqual(new Date(currElement), startDate)
+      );
+      let endIndex = this.chart.x.findIndex((currElement) =>
+        this.isEqual(new Date(currElement), endDate)
+      );
 
-    this.chart.y[0].data = this.chart.y[0].data.slice(startIndex, endIndex + 1);
-    this.chart.y[1].data = this.chart.y[1].data.slice(startIndex, endIndex + 1);
-    this.chart.y[2].data = this.chart.y[2].data.slice(startIndex, endIndex + 1);
+      this.chart.x = this.chart.x.slice(startIndex, endIndex + 1);
+
+      this.chart.y[0].data = this.chart.y[0].data.slice(
+        startIndex,
+        endIndex + 1
+      );
+      this.chart.y[1].data = this.chart.y[1].data.slice(
+        startIndex,
+        endIndex + 1
+      );
+      this.chart.y[2].data = this.chart.y[2].data.slice(
+        startIndex,
+        endIndex + 1
+      );
+    }
   }
 }

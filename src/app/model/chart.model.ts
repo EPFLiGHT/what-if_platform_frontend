@@ -4,9 +4,9 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 // Definition of a Chart entity for the frontend
 export class Chart {
   public y: Array<any>;
-  public xLabels: Array<any>;
+  public x: Array<any>;
 
-  public options: any = {
+  static readonly options: any = {
     tooltips: {
       enabled: false,
       custom: CustomTooltips,
@@ -62,7 +62,7 @@ export class Chart {
     },
   };
 
-  public colors: Array<any> = [
+  static readonly colors: Array<any> = [
     {
       // brandInfo
       backgroundColor: hexToRgba(getStyle('--info'), 10),
@@ -84,6 +84,6 @@ export class Chart {
       borderDash: [8, 5],
     },
   ];
-  public legend = true;
-  public type = 'line';
+  static readonly legend : boolean = true;
+  static readonly type : string = 'line';
 }

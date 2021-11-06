@@ -1,3 +1,5 @@
+import { Constants } from './../../../model/constants.model';
+import { Prediction } from './../../../model/prediction.model';
 import { PredictionsService } from './../../../services/predictions.service';
 import { CountryDataService } from './../../../services/country-data.service';
 import { Feature, VariableFeatures } from './../../../model/feature.model';
@@ -360,20 +362,18 @@ export class FeaturesSelectionComponent implements OnInit {
     });
   }
 
-  changeSingleFeature(category, name, value) {
+  private changeSingleFeature(category: string, name: string, value: string) {
     let feature = this.features[category].find((el) => el.name == name);
     if (feature) {
       feature['value'] = value;
     }
   }
 
-  changeValue(featureCategory, featureName, event) {
-    let value = event.target.value;
-    this.changeSingleFeature(featureCategory, featureName, value);
-    console.log(this.features);
+  public changeValue(featureCategory: string, featureName: string, event: any) {
+    this.changeSingleFeature(featureCategory, featureName, event.target.value);
   }
 
-  changePage(pageNumber: number) {
+  public changePage(pageNumber: number) {
     for (let i = 0; i < this.isPage.length; i++) {
       this.isPage[i] = false;
     }
@@ -381,30 +381,28 @@ export class FeaturesSelectionComponent implements OnInit {
     this.isPage[pageNumber - 1] = true;
   }
 
-  predict() {
-    let constantFeatures = {};
+  public predict() {
+    let constantFeatures: Object = {};
 
     Object.keys(this.features).forEach((category) => {
       if (category != 'policies') {
         constantFeatures = {
           ...constantFeatures,
           ...this.features[category].reduce(
-            (obj, item) => Object.assign(obj, { [item.name]: item.value }),
+            (obj: string, item: Feature) =>
+              Object.assign(obj, { [item.name]: item.value }),
             {}
           ),
         };
       }
     });
 
-    let variableFeatures = this.features['policies'].reduce(
+    let variableFeatures: Object = this.features['policies'].reduce(
       (obj, item) => Object.assign(obj, { [item.name]: item.value }),
       {}
     );
 
-    console.log(constantFeatures);
-    console.log(variableFeatures);
-
-    let data = {
+    let data: Prediction = {
       start_date: this.startDate,
       end_date: this.endDate,
       features: {
@@ -416,7 +414,7 @@ export class FeaturesSelectionComponent implements OnInit {
     this.predictionsService
       .getPredictions(this.isoCode, data)
       .subscribe((result) => {
-        localStorage.setItem('predictions', JSON.stringify(result));
+        localStorage.setItem(Constants.PREDICTION_KEY, JSON.stringify(result));
         this.router.navigate(['/reproduction-rate']);
       });
   }
