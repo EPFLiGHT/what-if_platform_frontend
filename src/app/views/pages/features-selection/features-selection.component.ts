@@ -363,14 +363,12 @@ export class FeaturesSelectionComponent implements OnInit {
   }
 
   private changeSingleFeature(category: string, name: string, value: string) {
-    let feature = this.features[category].find((el) => el.name == name);
+    let feature = this.features[category].find(
+      (el: Feature) => el.name == name
+    );
     if (feature) {
       feature['value'] = value;
     }
-  }
-
-  public changeValue(featureCategory: string, featureName: string, event: any) {
-    this.changeSingleFeature(featureCategory, featureName, event.target.value);
   }
 
   public changePage(pageNumber: number) {
@@ -410,6 +408,8 @@ export class FeaturesSelectionComponent implements OnInit {
         variable: variableFeatures,
       },
     };
+
+    console.log(data);
 
     this.predictionsService
       .getPredictions(this.isoCode, data)

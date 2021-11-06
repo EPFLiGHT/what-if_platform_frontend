@@ -1,5 +1,5 @@
 import { FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-stringency-level',
@@ -7,8 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./stringency-level.component.scss'],
 })
 export class StringencyLevelComponent implements OnInit {
-  @Input('stringency') stringency;
-  @Input('maxLevel') maxLevel;
+  @Input('stringency') stringency: number;
+  @Input('maxLevel') maxLevel: number;
+  @Output() stringencyChange = new EventEmitter<number>();
 
   ctrl: FormControl;
 
@@ -17,9 +18,10 @@ export class StringencyLevelComponent implements OnInit {
   ngOnInit(): void {
     this.ctrl = new FormControl(null, Validators.required);
     this.ctrl.setValue(this.stringency);
-  }
 
-  toKebabCase(str) {
-    return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+    this.ctrl.valueChanges.subscribe((newValue) => {
+      console.log(newValue);
+      this.stringencyChange.emit(newValue);
+    });
   }
 }

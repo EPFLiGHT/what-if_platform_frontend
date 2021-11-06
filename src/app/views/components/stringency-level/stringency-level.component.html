@@ -1,5 +1,5 @@
 <div class="w-100 text-left">
-  <ngb-rating [(rate)]="stringency" [max]="maxLevel" [formControl]="ctrl">
+  <ngb-rating [max]="maxLevel" [formControl]="ctrl">
     <ng-template let-fill="fill" let-index="index">
       <span class="star" [class.filled]="fill === 100">&#9679;</span>
     </ng-template>

@@ -101,7 +101,7 @@
             <th scope="row" class="feature-text">{{ date }}</th>
             <td *ngFor="let f of features.policies; let j = index">
               <app-stringency-level
-                [stringency]="features.policies[j]['value'][i]"
+                [(stringency)]="features.policies[j]['value'][i]"
                 [maxLevel]="features.policies[j]['range'][1]"
               ></app-stringency-level>
             </td>
