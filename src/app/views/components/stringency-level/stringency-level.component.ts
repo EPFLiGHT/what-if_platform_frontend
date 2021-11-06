@@ -20,7 +20,7 @@ export class StringencyLevelComponent implements OnInit {
     this.ctrl.setValue(this.stringency);
 
     this.ctrl.valueChanges.subscribe((newValue) => {
-      this.stringencyChange.emit(newValue);
+      this.stringencyChange.emit(newValue ? newValue : 0);
     });
   }
 }

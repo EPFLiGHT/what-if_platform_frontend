@@ -263,55 +263,55 @@ export class FeaturesSelectionComponent implements OnInit {
         fullName: 'School closing',
         name: 'school_closing',
         value: [1, 2, 3],
-        range: [1, 6],
+        range: [0, 3],
       },
       {
         fullName: 'Workplace closing',
         name: 'workplace_closing',
         value: [1, 2, 3],
-        range: [1, 6],
+        range: [0, 3],
       },
       {
         fullName: 'Canceling public events',
         name: 'cancel_public_events',
         value: [1, 2, 3],
-        range: [1, 6],
+        range: [0, 2],
       },
       {
         fullName: 'Restrictions on gatherings size',
         name: 'restrictions_on_gatherings',
         value: [1, 2, 3],
-        range: [1, 6],
+        range: [0, 4],
       },
       {
         fullName: 'Closing public transports',
         name: 'close_public_transport',
         value: [1, 2, 3],
-        range: [1, 6],
+        range: [0, 2],
       },
       {
         fullName: 'Stay at home requirements',
         name: 'stay_at_home_requirements',
         value: [1, 2, 3],
-        range: [1, 6],
+        range: [0, 3],
       },
       {
         fullName: 'Contact tracing',
         name: 'contact_tracing',
         value: [1, 2, 3],
-        range: [1, 6],
+        range: [0, 2],
       },
       {
         fullName: 'Restrictions on internal movement',
         name: 'restrictions_on_internal_movement',
         value: [1, 2, 3],
-        range: [1, 6],
+        range: [0, 2],
       },
       {
         fullName: 'International travelling controls',
         name: 'international_travel_controls',
         value: [1, 2, 3],
-        range: [1, 6],
+        range: [0, 4],
       },
     ],
   };
@@ -409,11 +409,12 @@ export class FeaturesSelectionComponent implements OnInit {
       },
     };
 
-    // console.log(data);
+    console.log(data);
 
     this.predictionsService
       .getPredictions(this.isoCode, data)
       .subscribe((result) => {
+        console.log(result);
         localStorage.setItem(Constants.PREDICTION_KEY, JSON.stringify(result));
         this.router.navigate(['/reproduction-rate']);
       });
