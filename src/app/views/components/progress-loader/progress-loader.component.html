@@ -1,0 +1,5 @@
+<div class="w-100" *ngIf="message">
+  <div class="mx-auto mt-5" id="loader"></div>
+  <p class="text-center h4 mt-4">{{ message }}</p>
+</div>
+<ng-content select="[pageContent]" *ngIf="!message"></ng-content>

@@ -16,6 +16,8 @@ export class FeaturesSelectionComponent implements OnInit {
   isPage: Array<boolean> = [true, false, false];
   dates: Array<string> = [];
 
+  loadingMessage : string;
+
   isoCode = '';
   startDate = '';
   endDate = '';
@@ -324,6 +326,8 @@ export class FeaturesSelectionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadingMessage = "Fetching data..."
+
     this.route.params.subscribe((params) => {
       this.isoCode = params['country'];
       this.countryDataService
@@ -357,6 +361,8 @@ export class FeaturesSelectionComponent implements OnInit {
                 data.policies[feature]
               );
             });
+
+            this.loadingMessage = null;
           });
       });
     });
@@ -418,5 +424,6 @@ export class FeaturesSelectionComponent implements OnInit {
         localStorage.setItem(Constants.PREDICTION_KEY, JSON.stringify(result));
         this.router.navigate(['/reproduction-rate']);
       });
+    this.loadingMessage = "Making predictions...";
   }
 }

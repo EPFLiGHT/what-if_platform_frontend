@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://whatif-backend:7890/api/v1/'
+  apiUrl: 'https://whatif-backend-api-zkpya36hlq-uc.a.run.app/api/v1/'
 };

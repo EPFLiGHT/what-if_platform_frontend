@@ -7,17 +7,19 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SingleFeatureSelectionComponent } from './single-feature-selection/single-feature-selection.component';
 import { StringencyLevelComponent } from './stringency-level/stringency-level.component';
+import { ProgressLoaderComponent } from './progress-loader/progress-loader.component';
 
 @NgModule({
   declarations: [
     DashboardCardComponent, 
     SelectionModalComponent, 
-    SingleFeatureSelectionComponent, StringencyLevelComponent],
+    SingleFeatureSelectionComponent, StringencyLevelComponent, ProgressLoaderComponent],
   exports: [
     DashboardCardComponent, 
     SelectionModalComponent,
     SingleFeatureSelectionComponent,
-    StringencyLevelComponent
+    StringencyLevelComponent,
+    ProgressLoaderComponent
   ],
   imports: [
     CommonModule, 
