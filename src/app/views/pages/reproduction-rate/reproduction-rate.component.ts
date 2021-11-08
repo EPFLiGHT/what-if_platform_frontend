@@ -195,13 +195,23 @@ export class ReproductionRateComponent implements OnInit {
 
   public getStartDate() {
     return (
-      this.fromDate.year + '-' + this.fromDate.month + '-' + this.fromDate.day
+      this.fromDate.year +
+      '-' +
+      this.fromDate.month.toString().padStart(2, '0') +
+      '-' +
+      this.fromDate.day.toString().padStart(2, '0')
     );
   }
 
   public getEndDate() {
     if (this.toDate) {
-      return this.toDate.year + '-' + this.toDate.month + '-' + this.toDate.day;
+      return (
+        this.toDate.year +
+        '-' +
+        this.toDate.month.toString().padStart(2, '0') +
+        '-' +
+        this.toDate.day.toString().padStart(2, '0')
+      );
     }
     return null;
   }
