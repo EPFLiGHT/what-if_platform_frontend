@@ -227,18 +227,9 @@ export class ReproductionRateComponent implements OnInit {
 
       this.chart.x = this.chart.x.slice(startIndex, endIndex + 1);
 
-      this.chart.y[0].data = this.chart.y[0].data.slice(
-        startIndex,
-        endIndex + 1
-      );
-      this.chart.y[1].data = this.chart.y[1].data.slice(
-        startIndex,
-        endIndex + 1
-      );
-      this.chart.y[2].data = this.chart.y[2].data.slice(
-        startIndex,
-        endIndex + 1
-      );
+      this.chart.y.forEach((y) => {
+        y.data = y.data.slice(startIndex, endIndex + 1);
+      });
     }
   }
 }

@@ -21,19 +21,20 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: '404',
-    component: P404Component,
-    data: {
-      title: 'Page 404'
-    }
-  },
-  {
     path: '500',
     component: P500Component,
     data: {
-      title: 'Page 500'
-    }
+      title: 'Page 500',
+    },
   },
+  {
+    path: '404',
+    component: P404Component,
+    data: {
+      title: 'Page 404',
+    },
+  },
+  /* 
   {
     path: 'login',
     component: LoginComponent,
@@ -47,31 +48,31 @@ export const routes: Routes = [
     data: {
       title: 'Register Page'
     }
-  },
+  }, */
   {
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'Home',
     },
     children: [
       {
         path: 'reproduction-rate',
-        component: ReproductionRateComponent
+        component: ReproductionRateComponent,
       },
       {
         path: 'unemployment-rate',
-        component: UnemploymentRateComponent
+        component: UnemploymentRateComponent,
       },
       {
         path: 'reinforcement-learning',
-        component: ReinforcementLearningComponent
+        component: ReinforcementLearningComponent,
       },
       {
         path: 'feature-selection/:country',
-        component: FeaturesSelectionComponent
+        component: FeaturesSelectionComponent,
       },
-      {
+      /* {
         path: 'base',
         loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
       },
@@ -102,14 +103,14 @@ export const routes: Routes = [
       {
         path: 'widgets',
         loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
-      }
-    ]
+      } */
+    ],
   },
-  { path: '**', component: P404Component }
+  { path: '**', component: P404Component },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

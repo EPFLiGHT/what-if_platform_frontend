@@ -84,32 +84,34 @@
       <li ngbNavItem>
         <a ngbNavLink>Variable features</a>
         <ng-template ngbNavContent>
-          <table class="table table-striped w-100">
-            <thead>
-              <tr>
-                <th scope="col" style="width: 10%" class="feature-text">#</th>
-                <th
-                  scope="col"
-                  style="width: 10%"
-                  class="feature-text"
-                  *ngFor="let feature of features.policies"
-                >
-                  {{ feature.fullName }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let date of dates; let i = index">
-                <th scope="row" class="feature-text">{{ date }}</th>
-                <td *ngFor="let f of features.policies; let j = index">
-                  <app-stringency-level
-                    [(stringency)]="features.policies[j]['value'][i]"
-                    [maxLevel]="features.policies[j]['range'][1]"
-                  ></app-stringency-level>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="overflow-x: scroll;">
+            <table class="table table-striped w-100">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 10%" class="feature-text">#</th>
+                  <th
+                    scope="col"
+                    style="width: 10%"
+                    class="feature-text"
+                    *ngFor="let feature of features.policies"
+                  >
+                    {{ feature.fullName }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let date of dates; let i = index">
+                  <th scope="row" class="feature-text">{{ date }}</th>
+                  <td *ngFor="let f of features.policies; let j = index">
+                    <app-stringency-level
+                      [(stringency)]="features.policies[j]['value'][i]"
+                      [maxLevel]="features.policies[j]['range'][1]"
+                    ></app-stringency-level>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </ng-template>
       </li>
     </ul>
