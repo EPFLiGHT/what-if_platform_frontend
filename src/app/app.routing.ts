@@ -72,7 +72,7 @@ export const routes: Routes = [
         path: 'feature-selection/:country',
         component: FeaturesSelectionComponent,
       },
-      /* {
+      {
         path: 'base',
         loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
       },
@@ -103,7 +103,7 @@ export const routes: Routes = [
       {
         path: 'widgets',
         loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
-      } */
+      }
     ],
   },
   { path: '**', component: P404Component },

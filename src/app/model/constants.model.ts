@@ -8,4 +8,7 @@ export class Constants {
     static readonly SELECTED_COUNTRY_ID_KEY: string = "selectedCountry"
     static readonly FROM_DATE_KEY: string = "fromDate"
     static readonly TO_DATE_KEY: string = "toDate"
+
+    static readonly CONSTANT_FEATURES_ID: string = "constantFeatures";
+    static readonly VARIABLE_FEATURES_ID: string = "variableFeatures";
 }

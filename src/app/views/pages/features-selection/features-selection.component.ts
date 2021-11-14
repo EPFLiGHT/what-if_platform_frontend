@@ -1,10 +1,14 @@
+import { GroupFeatureSelectionComponent } from './../../components/group-feature-selection/group-feature-selection.component';
+import { demographicValidator } from '../../../validators/demographic-validator.directive';
 import { Constants } from './../../../model/constants.model';
 import { Prediction } from './../../../model/prediction.model';
 import { PredictionsService } from './../../../services/predictions.service';
 import { CountryDataService } from './../../../services/country-data.service';
 import { Feature, VariableFeatures } from './../../../model/feature.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { ValidatorFn } from '@angular/forms';
+import { FieldValidator } from '../../../model/field-validator.model';
 
 @Component({
   selector: 'app-features-selection',
@@ -12,16 +16,35 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./features-selection.component.scss'],
 })
 export class FeaturesSelectionComponent implements OnInit {
+  @ViewChildren('inputFeaturesGroup')
+  featuresGroups: QueryList<GroupFeatureSelectionComponent>;
+
   pageNumber: number = 1;
   isPage: Array<boolean> = [true, false, false];
   dates: Array<string> = [];
 
-  loadingMessage : string;
+  demographicValidators: FieldValidator[] = [
+    {
+      validator: demographicValidator,
+      errors: [
+        { name: 'sumError', message: 'Demographic features are invalid' },
+      ],
+    },
+  ];
+
+  loadingMessage: string;
 
   isoCode = '';
   startDate = '';
   endDate = '';
   countryName = '';
+
+  isGroupValid: {
+    demographic: boolean;
+    sanitary: boolean;
+    unemployment: boolean;
+    gdp: boolean;
+  } = { demographic: true, sanitary: true, unemployment: true, gdp: true };
 
   features: {
     demographic: Feature[];
@@ -326,7 +349,11 @@ export class FeaturesSelectionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadingMessage = "Fetching data..."
+    this.init();
+  }
+
+  private init() {
+    this.loadingMessage = 'Fetching data...';
 
     this.route.params.subscribe((params) => {
       this.isoCode = params['country'];
@@ -342,6 +369,8 @@ export class FeaturesSelectionComponent implements OnInit {
               );
             });
           });
+
+          this.featuresGroups.forEach((el) => el.initGroup());
         });
 
       this.route.queryParams.subscribe((params) => {
@@ -368,6 +397,23 @@ export class FeaturesSelectionComponent implements OnInit {
     });
   }
 
+  public changeValidity(key: string, value: boolean) {
+    this.isGroupValid[key] = value;
+  }
+
+  public isFormValid(): boolean {
+    let isValid: boolean = true;
+
+    Object.keys(this.isGroupValid).forEach((key) => {
+      if (!this.isGroupValid[key]) {
+        isValid = false;
+        return;
+      }
+    });
+
+    return isValid;
+  }
+
   private changeSingleFeature(category: string, name: string, value: string) {
     let feature = this.features[category].find(
       (el: Feature) => el.name == name
@@ -377,12 +423,36 @@ export class FeaturesSelectionComponent implements OnInit {
     }
   }
 
+  public onFeatureChange(
+    category: string,
+    value: { featureName: string; updatedValue: number }
+  ) {
+    this.changeSingleFeature(
+      category,
+      value.featureName,
+      value.updatedValue.toString()
+    );
+  }
+
+  public changeValue(featureCategory: string, featureName: string, event: any) {
+    let value = event.target.value;
+    this.changeSingleFeature(featureCategory, featureName, value);
+  }
+
   public changePage(pageNumber: number) {
     for (let i = 0; i < this.isPage.length; i++) {
       this.isPage[i] = false;
     }
 
     this.isPage[pageNumber - 1] = true;
+  }
+
+  public clearStorage() {
+    localStorage.removeItem(Constants.CONSTANT_FEATURES_ID + this.isoCode);
+    localStorage.removeItem(Constants.VARIABLE_FEATURES_ID + this.isoCode);
+    localStorage.removeItem(Constants.PREDICTION_KEY + this.isoCode);
+
+    this.init();
   }
 
   public predict() {
@@ -406,6 +476,21 @@ export class FeaturesSelectionComponent implements OnInit {
       {}
     );
 
+    let variableFeaturesToStore: VariableFeatures = {
+      dates: this.dates,
+      policies: variableFeatures,
+    };
+
+    localStorage.setItem(
+      Constants.VARIABLE_FEATURES_ID + this.isoCode,
+      JSON.stringify(variableFeaturesToStore)
+    );
+
+    localStorage.setItem(
+      Constants.CONSTANT_FEATURES_ID + this.isoCode,
+      JSON.stringify(constantFeatures)
+    );
+
     let data: Prediction = {
       start_date: this.startDate,
       end_date: this.endDate,
@@ -421,9 +506,12 @@ export class FeaturesSelectionComponent implements OnInit {
       .getPredictions(this.isoCode, data)
       .subscribe((result) => {
         console.log(result);
-        localStorage.setItem(Constants.PREDICTION_KEY, JSON.stringify(result));
+        localStorage.setItem(
+          Constants.PREDICTION_KEY + this.isoCode,
+          JSON.stringify(result)
+        );
         this.router.navigate(['/reproduction-rate']);
       });
-    this.loadingMessage = "Making predictions...";
+    this.loadingMessage = 'Making predictions...';
   }
 }

@@ -1,0 +1,51 @@
+<div [formGroup]="group">
+  <div *ngFor="let feature of featuresGroup">
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="hf-email">{{
+        feature.fullName
+      }}</label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter a value.."
+          formControlName="{{ feature.name }}"
+          (change)="onChange(feature, $event)"
+          [value]="feature.value"
+        />
+        <div
+          *ngIf="getControl(feature.name).errors"
+          class="mt-2 px-3 py-2 alert alert-danger"
+          role="alert"
+        >
+          <span *ngIf="getControl(feature.name).errors.required"
+            ><i>{{ feature.fullName }}</i> cannot be empty. Please enter a
+            value</span
+          >
+          <span *ngIf="getControl(feature.name).errors.min"
+            >The minumum value for <i>{{ feature.fullName }}</i> is
+            {{ minValue }}</span
+          >
+          <span *ngIf="getControl(feature.name).errors.max"
+            >The maximum value for <i>{{ feature.fullName }}</i> is
+            {{ maxValue }}</span
+          >
+          <span *ngIf="getControl(feature.name).errors.pattern"
+            ><i>{{ feature.fullName }}</i> must be numeric</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  *ngIf="group.errors"
+  class="mt-2 px-3 py-2 alert alert-danger"
+  role="alert"
+>
+  <ng-container *ngFor="let validator of customValidators">
+    <ng-container *ngFor="let validator of validator.errors">
+      <span *ngIf="group.errors[validator.name]">{{ validator.message }}</span>
+    </ng-container>
+  </ng-container>
+</div>

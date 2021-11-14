@@ -8,6 +8,17 @@
       </p>
     </div>
 
+    <div class="pb-2">
+      <button
+        type="button"
+        class="btn btn-warning float-right d-flex align-items-center"
+        (click)="clearStorage()"
+      >
+        <i class="cil-action-undo mr-2"></i
+        ><span>Revert to original features</span>
+      </button>
+    </div>
+
     <ul ngbNav #nav="ngbNav" class="nav-tabs">
       <li ngbNavItem>
         <a ngbNavLink>Constant features</a>
@@ -16,58 +27,48 @@
             <h5>Demographic features</h5>
             <hr />
 
-            <app-single-feature-selection
-              *ngFor="let feature of features.demographic"
-              [featureName]="feature.fullName"
-              [defaultValue]="feature.value"
-              [minValue]="feature.range[0]"
-              [maxValue]="feature.range[1]"
-              (change)="changeValue('demographic', feature.name, $event)"
+            <app-group-feature-selection
+              [featuresGroup]="features.demographic"
+              [customValidators]="demographicValidators"
+              (featureChange)="onFeatureChange('demographic', $event)"
+              (groupValid)="changeValidity('demographic', $event)"
+              #inputFeaturesGroup
             >
-            </app-single-feature-selection>
+            </app-group-feature-selection>
 
             <h5>Sanitary features</h5>
             <hr />
 
-            <app-single-feature-selection
-              *ngFor="let feature of features.sanitary"
-              [featureName]="feature.fullName"
-              [defaultValue]="feature.value"
-              [minValue]="feature.range[0]"
-              [maxValue]="feature.range[1]"
-              (change)="changeValue('sanitary', feature.name, $event)"
-            >
-            </app-single-feature-selection>
+            <app-group-feature-selection
+              [featuresGroup]="features.sanitary"
+              (featureChange)="onFeatureChange('sanitary', $event)"
+              (groupValid)="changeValidity('sanitary', $event)"
+              #inputFeaturesGroup
+            ></app-group-feature-selection>
           </div>
 
           <div [style.display]="isPage[1] ? 'block' : 'none'">
             <h5>Unemployment rate (%)</h5>
             <hr />
 
-            <app-single-feature-selection
-              *ngFor="let feature of features.unemployment"
-              [featureName]="feature.fullName"
-              [defaultValue]="feature.value"
-              [minValue]="feature.range[0]"
-              [maxValue]="feature.range[1]"
-              (change)="changeValue('economic', feature.name, $event)"
-            >
-            </app-single-feature-selection>
+            <app-group-feature-selection
+              [featuresGroup]="features.unemployment"
+              (featureChange)="onFeatureChange('economic', $event)"
+              (groupValid)="changeValidity('economic', $event)"
+              #inputFeaturesGroup
+            ></app-group-feature-selection>
           </div>
 
           <div [style.display]="isPage[2] ? 'block' : 'none'">
             <h5>GDP (mld)</h5>
             <hr />
 
-            <app-single-feature-selection
-              *ngFor="let feature of features.gdp"
-              [featureName]="feature.fullName"
-              [defaultValue]="feature.value"
-              [minValue]="feature.range[0]"
-              [maxValue]="feature.range[1]"
-              (change)="changeValue('gdp', feature.name, $event)"
-            >
-            </app-single-feature-selection>
+            <app-group-feature-selection
+              [featuresGroup]="features.gdp"
+              (featureChange)="onFeatureChange('gdp', $event)"
+              (groupValid)="changeValidity('gdp', $event)"
+              #inputFeaturesGroup
+            ></app-group-feature-selection>
           </div>
 
           <div class="d-flex justify-content-end">
@@ -84,7 +85,7 @@
       <li ngbNavItem>
         <a ngbNavLink>Variable features</a>
         <ng-template ngbNavContent>
-          <div style="overflow-x: scroll;">
+          <div style="overflow-x: scroll">
             <table class="table table-striped w-100">
               <thead>
                 <tr>
@@ -130,6 +131,7 @@
 
       <div class="col-4">
         <button
+          [disabled]="!isFormValid()"
           type="button"
           class="btn btn-block btn-lg btn-success"
           (click)="predict()"

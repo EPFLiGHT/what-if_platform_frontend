@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 // Model of feature for the frontend
 export class Feature {
   fullName: string;

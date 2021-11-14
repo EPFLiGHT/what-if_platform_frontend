@@ -71,6 +71,9 @@ export class ReproductionRateComponent implements OnInit {
 
   selectedPeriod: string;
 
+  customPredictions: boolean;
+  isOriginalData: boolean;
+  
   private hoveredDate: NgbDate;
   private fromDate: NgbDate;
   private toDate: NgbDate;
@@ -98,7 +101,17 @@ export class ReproductionRateComponent implements OnInit {
     this.saveCountry(true);
     this.savePeriod(true);
 
-    localStorage.removeItem(Constants.PREDICTION_KEY);
+  }
+
+  public onSwitchClick() {
+    if(this.isOriginalData) {
+      this.isOriginalData = false;
+      this.updateChart(false);
+    } else {
+      this.isOriginalData = true;
+      this.updateChart(true);
+    }
+
   }
 
   private convertDateToNgbDate(date: string | Date): NgbDate {
@@ -110,12 +123,14 @@ export class ReproductionRateComponent implements OnInit {
     );
   }
 
-  private loadPredictions(): boolean {
-    let predictionsString = localStorage.getItem(Constants.PREDICTION_KEY);
-    if (predictionsString) {
+  private loadPredictions(forceOriginal=false): boolean {
+    let predictionsString = localStorage.getItem(Constants.PREDICTION_KEY + this.selectedCountryObject.iso_code);
+    if (predictionsString && !forceOriginal) {
       this.chart = JSON.parse(predictionsString);
+      this.isOriginalData = false;
       return true;
     }
+    this.isOriginalData = true;
     return false;
   }
 
@@ -216,8 +231,12 @@ export class ReproductionRateComponent implements OnInit {
     return null;
   }
 
-  private updateChart() {
-    if (!this.loadPredictions()) {
+  private updateChart(forceOriginal=false) {
+    if(localStorage.getItem(Constants.PREDICTION_KEY + this.selectedCountryObject.iso_code)) {
+      this.customPredictions = true;
+    }
+    
+    if (!this.loadPredictions(forceOriginal)) {
       this.chart = new Chart();
 
       this.chart.y = JSON.parse(

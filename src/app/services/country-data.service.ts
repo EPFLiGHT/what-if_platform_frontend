@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { Constants } from './../model/constants.model';
 import { environment as env } from './../../environments/environment';
 import { VariableFeatures } from './../model/feature.model';
 import { HttpClient } from '@angular/common/http';
@@ -7,10 +9,21 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CountryDataService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getConstantFeatures(country: string, endpoint = '/get_constant_data') {
-    return this.http.get<Object>(env.apiUrl + country + endpoint);
+    let savedData = localStorage.getItem(
+      Constants.CONSTANT_FEATURES_ID + country
+    );
+    if (savedData) {
+      return new Observable<Object>((observer) => {
+        observer.next(JSON.parse(savedData));
+      });
+    } else {
+      let data = this.http.get<Object>(env.apiUrl + country + endpoint);
+
+      return data;
+    }
   }
 
   getVariableFeatures(
@@ -19,11 +32,25 @@ export class CountryDataService {
     end_date: string,
     endpoint = '/get_variable_data'
   ) {
-    return this.http.get<VariableFeatures>(env.apiUrl + country + endpoint, {
-      params: {
-        start_date: start_date,
-        end_date: end_date,
-      },
-    });
+    let savedData = localStorage.getItem(
+      Constants.VARIABLE_FEATURES_ID + country
+    );
+    if (savedData) {
+      return new Observable<VariableFeatures>((observer) => {
+        observer.next(JSON.parse(savedData));
+      });
+    } else {
+      let data = this.http.get<VariableFeatures>(
+        env.apiUrl + country + endpoint,
+        {
+          params: {
+            start_date: start_date,
+            end_date: end_date,
+          },
+        }
+      );
+
+      return data;
+    }
   }
 }

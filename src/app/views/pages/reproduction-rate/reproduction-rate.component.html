@@ -96,8 +96,13 @@
         </div>
         <!--/.col-->
         <div class="col-sm-7 d-none d-md-block">
-          <button type="button" class="btn btn-primary float-right">
+          <!-- <button type="button" class="btn btn-primary float-right">
             <i class="icon-cloud-download"></i>
+          </button> -->
+          <button *ngIf="customPredictions" (click) = "onSwitchClick()" type="button" class="btn btn-primary float-right mr-2 d-flex align-items-center">
+            <i class="cil-swap-horizontal mr-2"></i>
+            <span *ngIf="isOriginalData">Plot with custom features</span>
+            <span *ngIf="!isOriginalData">Plot with original features</span>
           </button>
         </div>
         <!--/.col-->

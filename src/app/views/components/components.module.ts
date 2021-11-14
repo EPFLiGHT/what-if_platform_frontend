@@ -5,28 +5,31 @@ import { SelectionModalComponent } from './selection-modal/selection-modal.compo
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SingleFeatureSelectionComponent } from './single-feature-selection/single-feature-selection.component';
 import { StringencyLevelComponent } from './stringency-level/stringency-level.component';
 import { ProgressLoaderComponent } from './progress-loader/progress-loader.component';
+import { GroupFeatureSelectionComponent } from './group-feature-selection/group-feature-selection.component';
 
 @NgModule({
   declarations: [
-    DashboardCardComponent, 
-    SelectionModalComponent, 
-    SingleFeatureSelectionComponent, StringencyLevelComponent, ProgressLoaderComponent],
-  exports: [
-    DashboardCardComponent, 
+    DashboardCardComponent,
     SelectionModalComponent,
-    SingleFeatureSelectionComponent,
     StringencyLevelComponent,
-    ProgressLoaderComponent
+    ProgressLoaderComponent,
+    GroupFeatureSelectionComponent,
+  ],
+  exports: [
+    DashboardCardComponent,
+    SelectionModalComponent,
+    StringencyLevelComponent,
+    ProgressLoaderComponent,
+    GroupFeatureSelectionComponent,
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
     NgbModule,
     NgSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
 })
 export class ComponentsModule {}
