@@ -27,7 +27,7 @@ export class FeaturesSelectionComponent implements OnInit {
     {
       validator: demographicValidator,
       errors: [
-        { name: 'sumError', message: 'Demographic features are invalid' },
+        { name: 'sumError', message: 'The sum of the population stratified by age should be equal to the total population of the country' },
       ],
     },
   ];
@@ -370,30 +370,29 @@ export class FeaturesSelectionComponent implements OnInit {
             });
           });
 
-          this.featuresGroups.forEach((el) => el.initGroup());
-        });
+          this.route.queryParams.subscribe((params) => {
+            this.startDate = params['start_date'];
+            this.endDate = params['end_date'];
+            this.countryName = params['country_name'];
 
-      this.route.queryParams.subscribe((params) => {
-        this.startDate = params['start_date'];
-        this.endDate = params['end_date'];
-        this.countryName = params['country_name'];
+            this.countryDataService
+              .getVariableFeatures(this.isoCode, this.startDate, this.endDate)
+              .subscribe((data: VariableFeatures) => {
+                this.dates = data.dates;
 
-        this.countryDataService
-          .getVariableFeatures(this.isoCode, this.startDate, this.endDate)
-          .subscribe((data: VariableFeatures) => {
-            this.dates = data.dates;
+                Object.keys(data.policies).forEach((feature) => {
+                  this.changeSingleFeature(
+                    'policies',
+                    feature,
+                    data.policies[feature]
+                  );
+                });
 
-            Object.keys(data.policies).forEach((feature) => {
-              this.changeSingleFeature(
-                'policies',
-                feature,
-                data.policies[feature]
-              );
-            });
-
-            this.loadingMessage = null;
+                this.loadingMessage = null;
+                this.featuresGroups.forEach((el) => el.initGroup());
+              });
           });
-      });
+        });
     });
   }
 

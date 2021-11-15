@@ -38,15 +38,6 @@ export const demographicValidator: ValidatorFn = (
       parseInt(total_population_55_to_74) +
       parseInt(total_population_above_75)
   ) {
-    console.log(parseInt(total_population_all));
-    console.log(parseInt(total_population_below_1));
-    console.log(parseInt(total_population_1_to_4));
-    console.log(parseInt(total_population_5_to_14));
-    console.log(parseInt(total_population_15_to_24));
-    console.log(parseInt(total_population_25_to_34));
-    console.log(parseInt(total_population_35_to_54));
-    console.log(parseInt(total_population_55_to_74));
-    console.log(parseInt(total_population_above_75));
     return {
       sumError: true,
     };
