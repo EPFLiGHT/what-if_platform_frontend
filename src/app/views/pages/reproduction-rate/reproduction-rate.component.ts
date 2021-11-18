@@ -77,6 +77,7 @@ export class ReproductionRateComponent implements OnInit {
   loadingMessagePredictions: string;
   loadingMessageSHAP: string;
   loadingMessageCountries: string;
+  countryLoaded: boolean = false;
 
   private hoveredDate: NgbDate;
   private fromDate: NgbDate;
@@ -110,6 +111,9 @@ export class ReproductionRateComponent implements OnInit {
     this.countryService.getCountries().subscribe((countries: Country[]) => {
       this.countries = countries;
       this.loadingMessageCountries = null;
+      this.countryLoaded = true;
+
+      this.ngAfterViewInit();
 
       this.saveCountry(true);
       this.savePeriod(true);
