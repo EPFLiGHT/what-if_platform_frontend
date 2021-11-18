@@ -3,8 +3,8 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 
 // Definition of a Chart entity for the frontend
 export class Chart {
-  public y: Array<any>;
-  public x: Array<any>;
+  public y: Array<any> = [];
+  public x: Array<any> = [];
 
   static readonly options: any = {
     tooltips: {
@@ -84,6 +84,6 @@ export class Chart {
       borderDash: [8, 5],
     },
   ];
-  static readonly legend : boolean = true;
-  static readonly type : string = 'line';
+  static readonly legend: boolean = true;
+  static readonly type: string = 'line';
 }

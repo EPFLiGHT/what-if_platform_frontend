@@ -51,78 +51,127 @@
   </form>
 </app-selection-modal>
 
-<div class="animated fadeIn">
-  <div class="row mt-4">
-    <div class="col-sm-12 col-lg-4">
-      <app-dashboard-card
-        [leftIcon]="selectedCountryObject.flag"
-        [titleText]="selectedCountryObject.name"
-        [actionName]="'Pick your country'"
-        [rightIcon]="'icon-location-pin'"
-        [bgColor]="'#20a8d8'"
-        (click)="countrySelection.open()"
-      ></app-dashboard-card>
-    </div>
-    <!--/.col-->
-    <div class="col-sm-12 col-lg-4">
-      <app-dashboard-card
-        [titleText]="selectedPeriod"
-        [actionName]="'Choose a period'"
-        [rightIcon]="'icon-calendar'"
-        [bgColor]="'#f86c6b'"
-        (click)="periodSelection.open()"
-      ></app-dashboard-card>
-    </div>
-    <!--/.col-->
-    <div class="col-sm-12 col-lg-4"
-    [routerLink]="['/feature-selection', selectedCountryObject.iso_code]"
-    [queryParams]="{start_date: formatDate(getStartDate()), end_date: formatDate(getEndDate()), country_name: selectedCountryObject.name}">
-      <app-dashboard-card
-        [titleText]=""
-        [actionName]="'Change your features'"
-        [rightIcon]="'icon-pencil'"
-        [bgColor]="'#ffc107'"
-      ></app-dashboard-card>
-    </div>
-  </div>
-  <!--/.row-->
-
-  <div class="card">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-sm-5">
-          <h4 class="card-title mb-0">Reproduction Rate</h4>
-          <div class="small text-muted">Plot for the selected period</div>
-        </div>
-        <!--/.col-->
-        <div class="col-sm-7 d-none d-md-block">
-          <!-- <button type="button" class="btn btn-primary float-right">
-            <i class="icon-cloud-download"></i>
-          </button> -->
-          <button *ngIf="customPredictions" (click) = "onSwitchClick()" type="button" class="btn btn-primary float-right mr-2 d-flex align-items-center">
-            <i class="cil-swap-horizontal mr-2"></i>
-            <span *ngIf="isOriginalData">Plot with custom values</span>
-            <span *ngIf="!isOriginalData">Plot with original values</span>
-          </button>
-        </div>
-        <!--/.col-->
+<app-progress-loader [message]="loadingMessageCountries">
+  <div pageContent class="animated fadeIn">
+    <div class="row mt-4">
+      <div class="col-sm-12 col-lg-4">
+        <app-dashboard-card
+          [leftIcon]="selectedCountryObject?.flag"
+          [titleText]="selectedCountryObject?.name"
+          [actionName]="'Pick your country'"
+          [rightIcon]="'icon-location-pin'"
+          [bgColor]="'#20a8d8'"
+          (click)="countrySelection.open()"
+        ></app-dashboard-card>
       </div>
-      <!--/.row-->
+      <!--/.col-->
+      <div class="col-sm-12 col-lg-4">
+        <app-dashboard-card
+          [titleText]="selectedPeriod"
+          [actionName]="'Choose a period'"
+          [rightIcon]="'icon-calendar'"
+          [bgColor]="'#f86c6b'"
+          (click)="periodSelection.open()"
+        ></app-dashboard-card>
+      </div>
+      <!--/.col-->
       <div
-        class="chart-wrapper mt-3 mx-3"
-        style="height: 300px; margin-top: 40px"
+        class="col-sm-12 col-lg-4"
+        [routerLink]="['/feature-selection', selectedCountryObject?.iso_code]"
+        [queryParams]="{
+          start_date: formatDate(getStartDate()),
+          end_date: formatDate(getEndDate()),
+          country_name: selectedCountryObject?.name
+        }"
       >
-        <canvas
-          baseChart
-          class="chart"
-          [datasets]="chart.y"
-          [labels]="chart.x"
-          [options]="chartSettings.options"
-          [colors]="chartSettings.color"
-          [legend]="chartSettings.legend"
-          [chartType]="chartSettings.type"
-        ></canvas>
+        <app-dashboard-card
+          [titleText]=""
+          [actionName]="'Change your features'"
+          [rightIcon]="'icon-pencil'"
+          [bgColor]="'#ffc107'"
+        ></app-dashboard-card>
+      </div>
+    </div>
+    <!--/.row-->
+  </div>
+</app-progress-loader>
+
+<app-progress-loader [message]="loadingMessagePredictions">
+  <div pageContent class="animated fadeIn">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-5">
+            <h4 class="card-title mb-0">Reproduction Rate</h4>
+            <div class="small text-muted">Plot for the selected period</div>
+          </div>
+          <!--/.col-->
+          <div class="col-sm-7 d-none d-md-block">
+            <!-- <button type="button" class="btn btn-primary float-right">
+                <i class="icon-cloud-download"></i>
+              </button> -->
+            <button
+              *ngIf="customPredictions"
+              (click)="onSwitchClick()"
+              type="button"
+              class="btn btn-primary float-right mr-2 d-flex align-items-center"
+            >
+              <i class="cil-swap-horizontal mr-2"></i>
+              <span *ngIf="isOriginalData">Plot with custom values</span>
+              <span *ngIf="!isOriginalData">Plot with original values</span>
+            </button>
+          </div>
+          <!--/.col-->
+        </div>
+        <!--/.row-->
+        <div
+          class="chart-wrapper mt-3 mx-3"
+          style="height: 300px; margin-top: 40px"
+        >
+          <canvas
+            baseChart
+            class="chart"
+            [datasets]="chart.y"
+            [labels]="chart.x"
+            [options]="chartSettings.options"
+            [colors]="chartSettings.color"
+            [legend]="chartSettings.legend"
+            [chartType]="chartSettings.type"
+          ></canvas>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</app-progress-loader>
+
+<app-progress-loader [message]="loadingMessageSHAP">
+  <div pageContent class="animated fadeIn">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-5">
+            <h4 class="card-title mb-0">SHAP Values</h4>
+            <div class="small text-muted">
+              Importance of each policy for the selected country
+            </div>
+          </div>
+          <!--/.col-->
+        </div>
+        <div class="chart-wrapper mt-3 mx-3">
+          <canvas
+            #myChart
+            baseChart
+            class="chart"
+            [datasets]="barChart.y"
+            [labels]="barChart.x"
+            [options]="barChartSettings.options"
+            [height]="barChartSettings.height"
+            [colors]="barChartSettings.color"
+            [legend]="barChartSettings.legend"
+            [chartType]="barChartSettings.type"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-progress-loader>

@@ -4,12 +4,17 @@ import { environment as env } from './../../environments/environment';
 import { VariableFeatures } from './../model/feature.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Country } from '../model/country.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CountryDataService {
   constructor(private http: HttpClient) {}
+
+  getCountries(endpoint = '/get_countries') {
+    return this.http.get<Country[]>(env.apiUrl + endpoint);
+  }
 
   getConstantFeatures(country: string, endpoint = '/get_constant_data') {
     let savedData = localStorage.getItem(
