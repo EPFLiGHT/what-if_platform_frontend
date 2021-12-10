@@ -64,24 +64,28 @@ export class Chart {
 
   static readonly colors: Array<any> = [
     {
-      // brandInfo
-      backgroundColor: hexToRgba(getStyle('--info'), 10),
-      borderColor: getStyle('--info'),
+      backgroundColor: 'transparent',
+      // backgroundColor: hexToRgba(getStyle('--info'), 10),
+      borderColor: getStyle('--primary'),
       pointHoverBackgroundColor: '#fff',
     },
     {
-      // brandSuccess
       backgroundColor: 'transparent',
       borderColor: getStyle('--success'),
       pointHoverBackgroundColor: '#fff',
     },
     {
-      // brandDanger
-      backgroundColor: 'transparent',
+      backgroundColor: hexToRgba(getStyle('--danger'), 10),
       borderColor: getStyle('--danger'),
       pointHoverBackgroundColor: '#fff',
       borderWidth: 1,
       borderDash: [8, 5],
+    },
+    {
+      backgroundColor: 'transparent',
+      borderColor: getStyle('--dark'),
+      pointHoverBackgroundColor: '#fff',
+      borderWidth: 1
     },
   ];
   static readonly legend: boolean = true;

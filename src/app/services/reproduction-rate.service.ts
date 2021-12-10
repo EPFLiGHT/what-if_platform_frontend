@@ -1,14 +1,14 @@
-import { BarChart } from './../model/bar-chart.model';
-import { Chart } from './../model/chart.model';
-import { Prediction } from './../model/prediction.model';
-import { environment as env } from './../../environments/environment';
+import { BarChart } from '../model/bar-chart.model';
+import { Chart } from '../model/chart.model';
+import { Prediction } from '../model/prediction.model';
+import { environment as env } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PredictionsService {
+export class ReproductionRateService {
   constructor(private http: HttpClient) {}
 
   getPredictions(

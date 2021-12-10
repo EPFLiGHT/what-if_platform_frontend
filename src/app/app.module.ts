@@ -1,3 +1,4 @@
+import { ComponentsModule } from './views/components/components.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -68,7 +69,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     IconSetModule.forRoot(),
     PagesModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    ComponentsModule
   ],
   declarations: [
     AppComponent,

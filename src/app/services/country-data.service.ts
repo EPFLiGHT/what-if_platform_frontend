@@ -12,7 +12,8 @@ import { Country } from '../model/country.model';
 export class CountryDataService {
   constructor(private http: HttpClient) {}
 
-  getCountries(endpoint = '/get_countries') {
+  // `endpoint` must not have the slash because the request is without a parameter (otherwise you got two slashes)
+  getCountries(endpoint = 'get_countries') {
     return this.http.get<Country[]>(env.apiUrl + endpoint);
   }
 

@@ -1,8 +1,9 @@
+import { UnemploymentRateService } from './../../../services/unemployment-rate.service';
 import { GroupFeatureSelectionComponent } from './../../components/group-feature-selection/group-feature-selection.component';
 import { demographicValidator } from '../../../validators/demographic-validator.directive';
 import { Constants } from './../../../model/constants.model';
 import { Prediction } from './../../../model/prediction.model';
-import { PredictionsService } from './../../../services/predictions.service';
+import { ReproductionRateService } from '../../../services/reproduction-rate.service';
 import { CountryDataService } from './../../../services/country-data.service';
 import { Feature, VariableFeatures } from './../../../model/feature.model';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -27,7 +28,11 @@ export class FeaturesSelectionComponent implements OnInit {
     {
       validator: demographicValidator,
       errors: [
-        { name: 'sumError', message: 'The sum of the population stratified by age should be equal to the total population of the country' },
+        {
+          name: 'sumError',
+          message:
+            'The sum of the population stratified by age should be equal to the total population of the country',
+        },
       ],
     },
   ];
@@ -38,6 +43,7 @@ export class FeaturesSelectionComponent implements OnInit {
   startDate = '';
   endDate = '';
   countryName = '';
+  type = '';
 
   isGroupValid: {
     demographic: boolean;
@@ -321,8 +327,8 @@ export class FeaturesSelectionComponent implements OnInit {
         range: [0, 3],
       },
       {
-        fullName: 'Contact tracing',
-        name: 'contact_tracing',
+        fullName: 'Public information campaigns',
+        name: 'public_information_campaigns',
         value: [1, 2, 3],
         range: [0, 2],
       },
@@ -341,10 +347,20 @@ export class FeaturesSelectionComponent implements OnInit {
     ],
   };
 
+  features_to_drop_unemployment = [
+    'unemployment_rate_2020_03_31',
+    'unemployment_rate_2020_06_30',
+    'unemployment_rate_2020_09_30',
+    'unemployment_rate_2020_12_31',
+    'unemployment_rate_2021_03_31',
+    'unemployment_rate_2021_06_30',
+  ];
+
   constructor(
     private route: ActivatedRoute,
     private countryDataService: CountryDataService,
-    private predictionsService: PredictionsService,
+    private reproductionRateService: ReproductionRateService,
+    private unemploymentRateService: UnemploymentRateService,
     private router: Router
   ) {}
 
@@ -374,6 +390,13 @@ export class FeaturesSelectionComponent implements OnInit {
             this.startDate = params['start_date'];
             this.endDate = params['end_date'];
             this.countryName = params['country_name'];
+            this.type = params['type'];
+
+            if (this.type == Constants.UNEMPLOYMENT_FEATURES_TYPE) {
+              this.features.unemployment = this.features.unemployment.filter(
+                (el) => !this.features_to_drop_unemployment.includes(el.name)
+              );
+            }
 
             this.countryDataService
               .getVariableFeatures(this.isoCode, this.startDate, this.endDate)
@@ -449,7 +472,9 @@ export class FeaturesSelectionComponent implements OnInit {
   public clearStorage() {
     localStorage.removeItem(Constants.CONSTANT_FEATURES_ID + this.isoCode);
     localStorage.removeItem(Constants.VARIABLE_FEATURES_ID + this.isoCode);
-    localStorage.removeItem(Constants.PREDICTION_KEY + this.isoCode);
+    localStorage.removeItem(
+      Constants.REPRODUCTION_PREDICTION_KEY + this.isoCode
+    );
 
     this.init();
   }
@@ -501,16 +526,30 @@ export class FeaturesSelectionComponent implements OnInit {
 
     console.log(data);
 
-    this.predictionsService
+    if(this.type == Constants.REPRODUCTION_FEATURES_TYPE) {
+      this.reproductionRateService
       .getPredictions(this.isoCode, data)
       .subscribe((result) => {
         console.log(result);
         localStorage.setItem(
-          Constants.PREDICTION_KEY + this.isoCode,
+          Constants.REPRODUCTION_PREDICTION_KEY + this.isoCode,
           JSON.stringify(result)
         );
         this.router.navigate(['/reproduction-rate']);
       });
+    } else {
+      this.unemploymentRateService
+      .getPredictions(this.isoCode, data)
+      .subscribe((result) => {
+        console.log(result);
+        localStorage.setItem(
+          Constants.UNEMPLOYMENT_PREDICTION_KEY + this.isoCode,
+          JSON.stringify(result)
+        );
+        this.router.navigate(['/unemployment-rate']);
+      });
+    }
+
     this.loadingMessage = 'Making predictions...';
   }
 }

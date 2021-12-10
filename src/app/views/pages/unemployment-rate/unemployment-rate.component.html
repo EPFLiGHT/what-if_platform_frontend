@@ -1,1 +1,107 @@
-<p>unemployment-rate works!</p>
+<app-selection-modal
+  #countrySelection
+  [modalTitle]="'Country selection'"
+  (saveRequest)="saveCountry($event)"
+>
+  <form modalContent>
+    <div class="form-group">
+      <label for="country">Select a country: </label>
+      <ng-select
+        name="country"
+        [items]="countries"
+        bindLabel="name"
+        bindValue="id"
+        [(ngModel)]="selectedCountryId"
+      >
+      </ng-select>
+    </div>
+  </form>
+</app-selection-modal>
+
+<app-progress-loader [message]="loadingMessageCountries">
+  <div pageContent class="animated fadeIn">
+    <div class="row mt-4">
+      <div class="col-sm-12 col-lg-6">
+        <app-dashboard-card
+          [leftIcon]="selectedCountryObject?.flag"
+          [titleText]="selectedCountryObject?.name"
+          [actionName]="'Pick your country'"
+          [rightIcon]="'icon-location-pin'"
+          [bgColor]="'#333333'"
+          (click)="countrySelection.open()"
+        ></app-dashboard-card>
+      </div>
+      <!--/.col-->
+      <div
+        class="col-sm-12 col-lg-6"
+        [routerLink]="['/feature-selection', selectedCountryObject?.iso_code]"
+        [queryParams]="{
+          start_date: formatDate(getStartDate()),
+          end_date: formatDate(getEndDate()),
+          country_name: selectedCountryObject?.name,
+          type: 'unemployment'
+        }"
+      >
+        <app-dashboard-card
+          [titleText]=""
+          [actionName]="'Change your features'"
+          [rightIcon]="'icon-pencil'"
+          [bgColor]="'#333333'"
+        ></app-dashboard-card>
+      </div>
+    </div>
+    <!--/.row-->
+  </div>
+</app-progress-loader>
+
+<app-progress-loader
+  [hidden]="!countryLoaded"
+  [message]="loadingMessagePredictions"
+>
+  <div pageContent class="animated fadeIn">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-5">
+            <h4 class="card-title mb-0">Unemployment Rate</h4>
+            <div class="small text-muted">Plot for the selected country</div>
+          </div>
+          <!--/.col-->
+          <div class="col-sm-7 d-none d-md-block">
+            <!-- <button type="button" class="btn btn-primary float-right">
+                <i class="icon-cloud-download"></i>
+              </button> -->
+            <!-- <button
+              *ngIf="customPredictions"
+              (click)="onSwitchClick()"
+              type="button"
+              class="btn btn-primary float-right mr-2 d-flex align-items-center"
+            >
+              <i class="cil-swap-horizontal mr-2"></i>
+              <span *ngIf="isOriginalData">Plot with custom values</span>
+              <span *ngIf="!isOriginalData">Plot with original values</span>
+            </button> -->
+            <p class="text-muted float-right d-flex align-items-center">ℹ️<small class="ml-1 font-italic">Click on a label in the legend to show/hide the related values</small></p>
+          </div>
+          <!--/.col-->
+        </div>
+        <!--/.row-->
+        <div
+          class="chart-wrapper mt-3 mx-3"
+          style="height: 300px; margin-top: 40px"
+        >
+          <canvas
+            baseChart
+            class="chart"
+            [datasets]="barChart.y"
+            [labels]="barChart.x"
+            [options]="barChartOptions"
+            [height]=60
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-progress-loader>

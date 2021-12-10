@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StringencyLevelComponent } from './stringency-level/stringency-level.component';
 import { ProgressLoaderComponent } from './progress-loader/progress-loader.component';
 import { GroupFeatureSelectionComponent } from './group-feature-selection/group-feature-selection.component';
+import { DetailsBoxComponent } from './details-box/details-box.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { GroupFeatureSelectionComponent } from './group-feature-selection/group-
     StringencyLevelComponent,
     ProgressLoaderComponent,
     GroupFeatureSelectionComponent,
+    DetailsBoxComponent,
   ],
   exports: [
     DashboardCardComponent,
@@ -23,6 +25,7 @@ import { GroupFeatureSelectionComponent } from './group-feature-selection/group-
     StringencyLevelComponent,
     ProgressLoaderComponent,
     GroupFeatureSelectionComponent,
+    DetailsBoxComponent
   ],
   imports: [
     CommonModule,

@@ -16,6 +16,11 @@ export class BarChart {
       type: 'linear',
       xAxes: [
         {
+          scaleLabel: {
+            display: true,
+            labelString: "Relative impact (➡️ More effective  ⬅️ Less effective)",
+            fontSize: 16
+          },
           display: true,
           ticks: {
             beginAtZero: true, // minimum value will be 0.
@@ -25,7 +30,9 @@ export class BarChart {
     },
   };
 
-  static readonly type: string = 'horizontalBar';
+  static readonly horizontalType: string = 'horizontalBar';
+  static readonly verticalType: string = 'bar';
+  
   static readonly legend: boolean = false;
   static readonly height: number = 100;
 }

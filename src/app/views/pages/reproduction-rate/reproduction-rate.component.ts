@@ -1,5 +1,5 @@
 import { CountryDataService } from './../../../services/country-data.service';
-import { PredictionsService } from './../../../services/predictions.service';
+import { ReproductionRateService } from '../../../services/reproduction-rate.service';
 import { BarChart } from './../../../model/bar-chart.model';
 import { BaseChartDirective } from 'ng2-charts';
 import { Constants } from './../../../model/constants.model';
@@ -31,7 +31,7 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 export class ReproductionRateComponent implements OnInit {
   @ViewChild('countrySelection') countrySelection: SelectionModalComponent;
   @ViewChild('periodSelection') periodSelection: SelectionModalComponent;
-  @ViewChild('myChart') myChart: ElementRef;
+  @ViewChild('shapChart') myChart: ElementRef;
 
   context: CanvasRenderingContext2D;
 
@@ -45,7 +45,7 @@ export class ReproductionRateComponent implements OnInit {
     options: BarChart.options,
     color: BarChart.colors,
     legend: BarChart.legend,
-    type: BarChart.type,
+    type: BarChart.horizontalType,
     height: BarChart.height,
   };
 
@@ -86,7 +86,7 @@ export class ReproductionRateComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private countryService: CountryDataService,
-    private predictionService: PredictionsService
+    private predictionService: ReproductionRateService
   ) {}
 
   ngOnInit() {
@@ -130,6 +130,8 @@ export class ReproductionRateComponent implements OnInit {
     purple_orange_gradient.addColorStop(0, '#298752'); //Green
 
     BarChart.colors[0].backgroundColor = purple_orange_gradient;
+
+    console.log(ctx.canvas)
   }
 
   public onSwitchClick() {
@@ -153,7 +155,7 @@ export class ReproductionRateComponent implements OnInit {
 
   private loadPredictions(forceOriginal = false): boolean {
     let predictionsString = localStorage.getItem(
-      Constants.PREDICTION_KEY + this.selectedCountryObject.iso_code
+      Constants.REPRODUCTION_PREDICTION_KEY + this.selectedCountryObject.iso_code
     );
     if (predictionsString && !forceOriginal) {
       this.chart = JSON.parse(predictionsString);
@@ -277,7 +279,7 @@ export class ReproductionRateComponent implements OnInit {
   private updateChart(forceOriginal = false) {
     if (
       localStorage.getItem(
-        Constants.PREDICTION_KEY + this.selectedCountryObject.iso_code
+        Constants.REPRODUCTION_PREDICTION_KEY + this.selectedCountryObject.iso_code
       )
     ) {
       this.customPredictions = true;

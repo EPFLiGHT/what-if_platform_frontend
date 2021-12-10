@@ -11,13 +11,46 @@
     color: white;
     font-weight: bold;
     position: absolute;
-    top: 50%;
+    top: 5%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 10%);
     z-index: 2;
     width: 80%;
 }
 
 .my-button {
-    width: 250px;
+    width: 400px;
+    font-size:28px;
 }
+
+@-webkit-keyframes fadeInUp {
+    from {
+      opacity: 0;
+      -webkit-transform: translate3d(-50%, 40%, 0);
+      transform: translate3d(-50%, 40%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: translate3d(-50%, 10%, 0);
+      transform: translate3d(-50%, 10%, 0);
+    }
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      -webkit-transform: translate3d(-50%, 40%, 0);
+      transform: translate3d(-50%, 40%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: translate3d(-50%, 10%, 0);
+      transform: translate3d(-50%, 10%, 0);
+    }
+  }
+  
+  .fadeInUp {
+    -webkit-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+  }

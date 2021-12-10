@@ -1,0 +1,19 @@
+<div *ngIf="showDetails" class="row mb-3 animated fadeIn">
+  <div class="col-12 pr-0 bottom-bar-dark rounded-top">
+    <div class="fs-18 m-3" [innerHTML] = "description">
+        {{description}}
+    </div>
+  </div>
+</div>
+<div
+  (mouseover)="showDetails = true"
+  (mouseout)="showDetails = false"
+  class="row align-items-center h-250 bottom-bar-light"
+>
+  <div class="col-12">
+    <div class="text-center py-5 h4">
+      <div class="mb-3"><i class="{{icon}} icon-large"></i></div>
+      {{title}}
+    </div>
+  </div>
+</div>

@@ -1,6 +1,49 @@
 <div class="bg-image w-100 h-100"></div>
-<div class="bg-text text-center">
-        <h1>WHAT IF...?</h1>
-        <h3>A global pandemic policy simulator</h3>
-        <button type="button" class="btn btn-block btn-pill btn-outline-light mx-auto my-button mt-4" [routerLink]="'/reproduction-rate'">Explore the platform</button>
+<div class="container bg-text text-center animated fadeInUp">
+  <h1 class="display-2">WHAT IF...?</h1>
+  <h3 class="display-4">A global pandemic policy simulator</h3>
+  <button
+    type="button"
+    class="btn btn-block btn-pill btn-outline-light mx-auto my-button mt-4"
+    [routerLink]="'/reproduction-rate'"
+  >
+    Explore the platform
+  </button>
+</div>
+<div class="row align-items-end fixed-bottom">
+  <app-details-box
+    class="col-3"
+    [title]="'Visualize COVID-19 spreading for your country'"
+    [description]="
+      'See how your government tackled the challenge posed by <b>COVID-19</b> and if their measures to contain the pandemic have been effective. Check how your country performed against the other ones, for any given period of time.'
+    "
+    [icon]="'cil-graph'"
+  ></app-details-box>
+
+  <app-details-box
+    class="col-3"
+    [title]="'No more uncertainty on the restrictions to be adopted'"
+    [description]="
+      'Thanks to an artificial intelligence developed by the Intelligent Global Health lab of <b>EPFL</b>, it is now possible to predict the evolution of the <b>COVID-19</b> epidemic based on the restrictions adopted. The most disruptive news is that the AI can also decide which restrictions to adopt in the future, based on the current situation in the country.'
+    "
+    [icon]="'fa fa-question-circle'"
+  ></app-details-box>
+
+  <app-details-box
+    class="col-3"
+    [title]="'Fighting the influence of restrictions on the economy'"
+    [description]="
+      'The <b>AI</b> keeps track of the weight of restrictions on economic factors such as the <b>unemployment rate</b> and finds the best combination of weekly policies to combat the spread of the infection without weighing heavily on the country\'s economy.'
+    "
+    [icon]="'cil-money'"
+  ></app-details-box>
+
+  <app-details-box
+    class="col-3"
+    [title]="'A universal model'"
+    [description]="
+      'Currently, <b>28</b> European countries are included as a proof of concept, and we are working on adding many more depending on data availability.'
+    "
+    [icon]="'cil-globe-alt'"
+  ></app-details-box>
 </div>
