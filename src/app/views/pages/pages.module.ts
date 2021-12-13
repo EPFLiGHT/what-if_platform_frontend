@@ -10,13 +10,15 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { FeaturesSelectionComponent } from './features-selection/features-selection.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
     ReproductionRateComponent,
     UnemploymentRateComponent,
     ReinforcementLearningComponent,
-    FeaturesSelectionComponent
+    FeaturesSelectionComponent,
+    AboutComponent
   ],
   imports: [
     CommonModule,

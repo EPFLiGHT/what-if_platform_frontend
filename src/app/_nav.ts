@@ -23,6 +23,15 @@ export const navItems: INavData[] = [
     icon: 'icon-speedometer'
     
   },
+  {
+    divider: true
+  },
+  {
+    name: 'About',
+    url: '/about',
+    icon: 'icon-info'
+    
+  },
   /* {
     name: 'Dashboard',
     url: '/dashboard',

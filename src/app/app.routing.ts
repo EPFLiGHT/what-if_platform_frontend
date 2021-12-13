@@ -1,3 +1,4 @@
+import { AboutComponent } from './views/pages/about/about.component';
 import { FeaturesSelectionComponent } from './views/pages/features-selection/features-selection.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -67,6 +68,10 @@ export const routes: Routes = [
       {
         path: 'reinforcement-learning',
         component: ReinforcementLearningComponent,
+      },
+      {
+        path: 'about',
+        component: AboutComponent,
       },
       {
         path: 'feature-selection/:country',

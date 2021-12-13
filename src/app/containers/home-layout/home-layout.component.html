@@ -1,7 +1,21 @@
 <div class="bg-image w-100 h-100"></div>
 <div class="container bg-text text-center animated fadeInUp">
-  <h1 class="display-2">WHAT IF...?</h1>
-  <h3 class="display-4">A global pandemic policy simulator</h3>
+  <h1 class="display-4" style="height:130px">
+    What if
+    <span
+      *ngIf="start"
+      typingAnimation
+      [typeSpeed]="50"
+      [startDelay]="100"
+      [hideCursorOnComplete]="true"
+      (complete)="onTypingAnimationComplete()"
+    >
+      we {{ X }} {{ Y }} in {{ Z }}?</span
+    >
+  </h1>
+
+  <!-- <h3 class="h1">A global pandemic policy simulator</h3> -->
+  <h6 class="h2 mt-5">What COVID-19 policies would you have put in place?</h6>
   <button
     type="button"
     class="btn btn-block btn-pill btn-outline-light mx-auto my-button mt-4"
@@ -13,36 +27,36 @@
 <div class="row align-items-end fixed-bottom">
   <app-details-box
     class="col-3"
-    [title]="'Visualize COVID-19 spreading for your country'"
+    [title]="'Visualize the impact of COVID policies in your country'"
     [description]="
-      'See how your government tackled the challenge posed by <b>COVID-19</b> and if their measures to contain the pandemic have been effective. Check how your country performed against the other ones, for any given period of time.'
+      'Explore how your government responded to the pandemic in your country, and see which policies were most effective'
     "
     [icon]="'cil-graph'"
   ></app-details-box>
 
   <app-details-box
     class="col-3"
-    [title]="'No more uncertainty on the restrictions to be adopted'"
+    [title]="'Make a country-specific evidence-based response strategy'"
     [description]="
-      'Thanks to an artificial intelligence developed by the Intelligent Global Health lab of <b>EPFL</b>, it is now possible to predict the evolution of the <b>COVID-19</b> epidemic based on the restrictions adopted. The most disruptive news is that the AI can also decide which restrictions to adopt in the future, based on the current situation in the country.'
+      'Test the effect of changing COVID policies on a digital twin of your country'
     "
     [icon]="'fa fa-question-circle'"
   ></app-details-box>
 
   <app-details-box
     class="col-3"
-    [title]="'Fighting the influence of restrictions on the economy'"
+    [title]="'Understand the economic cost of policies'"
     [description]="
-      'The <b>AI</b> keeps track of the weight of restrictions on economic factors such as the <b>unemployment rate</b> and finds the best combination of weekly policies to combat the spread of the infection without weighing heavily on the country\'s economy.'
+      'The AI algorithm computes the economic cost of restrictions in terms of unemployment and find the optimal policies that minimize both COVID spread and economic damage'
     "
     [icon]="'cil-money'"
   ></app-details-box>
 
   <app-details-box
     class="col-3"
-    [title]="'A universal model'"
+    [title]="'An (almost) global model'"
     [description]="
-      'Currently, <b>28</b> European countries are included as a proof of concept, and we are working on adding many more depending on data availability.'
+      'This proof of concept includes 28 European countries...but 116 more are coming soon.'
     "
     [icon]="'cil-globe-alt'"
   ></app-details-box>

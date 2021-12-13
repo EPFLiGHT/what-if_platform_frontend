@@ -50,6 +50,8 @@ import { HomeLayoutComponent } from './containers/home-layout/home-layout.compon
 import { PagesModule } from './views/pages/pages.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { TypingAnimationModule } from 'angular-typing-animation'
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -70,7 +72,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     PagesModule,
     NgbModule,
     FormsModule,
-    ComponentsModule
+    ComponentsModule,
+    TypingAnimationModule
   ],
   declarations: [
     AppComponent,
