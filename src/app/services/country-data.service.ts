@@ -13,8 +13,8 @@ export class CountryDataService {
   constructor(private http: HttpClient) {}
 
   // `endpoint` must not have the slash because the request is without a parameter (otherwise you got two slashes)
-  getCountries(endpoint = 'get_countries') {
-    return this.http.get<Country[]>(env.apiUrl + endpoint);
+  getCountries(type: string, endpoint = '/get_countries') {
+    return this.http.get<Country[]>(env.apiUrl + type + endpoint);
   }
 
   getConstantFeatures(country: string, endpoint = '/get_constant_data') {

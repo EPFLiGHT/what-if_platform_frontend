@@ -5,6 +5,7 @@ export class Feature {
   name: string;
   value: number | number[];
   range: number[];
+  isUsed: boolean;
 }
 
 // Model of variable features (policies) returned by the APIs

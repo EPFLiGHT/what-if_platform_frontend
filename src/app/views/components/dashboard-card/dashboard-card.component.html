@@ -7,7 +7,8 @@
             <i *ngIf="leftIcon" class="{{ leftIcon }}"></i> {{ titleText }}
         </div>
     </div>
-    <div class="card-body align-items-center d-flex justify-content-center py-0">
-        <div class="mb-5"> {{ actionName }} </div>
+    <div class="card-body align-items-center d-flex flex-column justify-content-center py-0">
+        <div [innerHTML] = "actionName"> {{ actionName }} </div>
+        <small class="text-center mb-5" style="font-size:65%;" [innerHTML] = "subtitle"> {{ subtitle }} </small>
     </div>
 </div>

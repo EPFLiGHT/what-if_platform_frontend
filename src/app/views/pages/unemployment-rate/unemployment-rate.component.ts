@@ -62,7 +62,7 @@ export class UnemploymentRateComponent implements OnInit {
 
   ngOnInit() {
     let selectedCountryId = localStorage.getItem(
-      Constants.SELECTED_COUNTRY_ID_KEY
+      Constants.SELECTED_COUNTRY_ID_KEY + Constants.UNEMPLOYMENT_FEATURES_TYPE
     );
 
     this.selectedCountryId = selectedCountryId
@@ -70,7 +70,7 @@ export class UnemploymentRateComponent implements OnInit {
       : Constants.DEAFULT_COUNTRY_KEY;
 
     this.loadingMessageCountries = 'Loading countries...';
-    this.countryService.getCountries().subscribe((countries: Country[]) => {
+    this.countryService.getCountries('economic').subscribe((countries: Country[]) => {
       this.countries = countries;
       this.loadingMessageCountries = null;
       this.countryLoaded = true;
@@ -110,7 +110,7 @@ export class UnemploymentRateComponent implements OnInit {
       );
 
       localStorage.setItem(
-        Constants.SELECTED_COUNTRY_ID_KEY,
+        Constants.SELECTED_COUNTRY_ID_KEY + Constants.UNEMPLOYMENT_FEATURES_TYPE,
         this.selectedCountryId.toString()
       );
 

@@ -87,7 +87,8 @@
       >
         <app-dashboard-card
           [titleText]=""
-          [actionName]="'Change your features'"
+          [actionName]="'Create a <i>What If</i> scenario'"
+          [subtitle]="'Change the characteristics of a country or its implemented policies'"
           [rightIcon]="'icon-pencil'"
           [bgColor]="'#333333'"
         ></app-dashboard-card>
@@ -122,7 +123,16 @@
               <span *ngIf="!isOriginalData">Plot with original values</span>
             </button> -->
             
-            <p class="text-muted float-right d-flex align-items-center">ℹ️<small class="ml-1 font-italic">Click on a label in the legend to show/hide the related values</small></p>
+            <div class="d-flex flex-right flex-column text-right">
+              <p class="text-muted align-items-center">
+                ℹ️<small class="ml-1 font-italic">Click on a label in the legend to show/hide the related values</small>
+              </p>
+
+              <p class="text-muted align-items-center">
+                ⚠️<small class="ml-1 font-italic">Every prediction is made on data coming from the previous seven days.<br/>More on this in our paper (link in the about section)</small>
+              </p>
+            </div>
+
           </div>
           <!--/.col-->
         </div>

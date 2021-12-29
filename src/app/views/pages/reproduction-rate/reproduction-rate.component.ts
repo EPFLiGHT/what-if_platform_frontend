@@ -22,6 +22,7 @@ import ITA from '../../../../assets/json/RE/ITA.json';
 import ESP from '../../../../assets/json/RE/ESP.json'; */
 
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-reproduction-rate',
@@ -91,7 +92,7 @@ export class ReproductionRateComponent implements OnInit {
 
   ngOnInit() {
     let selectedCountryId = localStorage.getItem(
-      Constants.SELECTED_COUNTRY_ID_KEY
+      Constants.SELECTED_COUNTRY_ID_KEY + Constants.REPRODUCTION_FEATURES_TYPE
     );
     let fromDate = localStorage.getItem(Constants.FROM_DATE_KEY);
     let toDate = localStorage.getItem(Constants.TO_DATE_KEY);
@@ -108,7 +109,7 @@ export class ReproductionRateComponent implements OnInit {
       : Constants.DEFAULT_TO_DATE;
 
     this.loadingMessageCountries = 'Loading countries...';
-    this.countryService.getCountries().subscribe((countries: Country[]) => {
+    this.countryService.getCountries('reproduction').subscribe((countries: Country[]) => {
       this.countries = countries;
       this.loadingMessageCountries = null;
       this.countryLoaded = true;
@@ -207,7 +208,7 @@ export class ReproductionRateComponent implements OnInit {
       );
 
       localStorage.setItem(
-        Constants.SELECTED_COUNTRY_ID_KEY,
+        Constants.SELECTED_COUNTRY_ID_KEY + Constants.REPRODUCTION_FEATURES_TYPE,
         this.selectedCountryId.toString()
       );
 
@@ -297,7 +298,6 @@ export class ReproductionRateComponent implements OnInit {
         })
         .subscribe((originalPredictions: Chart) => {
           this.chart = originalPredictions;
-
           this.loadingMessagePredictions = null;
         });
     }

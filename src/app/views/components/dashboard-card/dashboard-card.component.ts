@@ -10,6 +10,7 @@ export class DashboardCardComponent implements OnInit {
 
   @Input() leftIcon : string | boolean
   @Input() titleText = ''
+  @Input() subtitle = ''
   @Input() actionName = ''
   @Input() rightIcon = ''
   @Input() bgColor = ''

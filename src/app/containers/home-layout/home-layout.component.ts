@@ -68,11 +68,16 @@ export class HomeLayoutComponent implements OnInit {
   }
 
   onTypingAnimationComplete() {
-    setTimeout(() => this.start = false, 1000)
+    setTimeout(() => (this.start = false), 1000);
     this.X = this.XSet[this.getRandomInt(this.XSet.length)];
-    this.Y = this.YSet[this.getRandomInt(this.YSet.length)];
+    do {
+      this.Y = this.YSet[this.getRandomInt(this.YSet.length)];
+    } while (
+      this.X != 'intesified' &&
+      this.Y == 'public information campaigns'
+    );
     this.Z = this.ZSet[this.getRandomInt(this.ZSet.length)];
-    setTimeout(() => this.start = true, 1000)
+    setTimeout(() => (this.start = true), 1000);
   }
 
   private getRandomInt(max: number): number {
