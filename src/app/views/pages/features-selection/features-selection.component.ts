@@ -552,11 +552,16 @@ export class FeaturesSelectionComponent implements OnInit, AfterViewInit {
         this.endDate +
         this.isoCode
     );
+    
     localStorage.removeItem(
       Constants.REPRODUCTION_PREDICTION_KEY +
         this.startDate +
         this.endDate +
         this.isoCode
+    );
+
+    localStorage.removeItem(
+      Constants.UNEMPLOYMENT_PREDICTION_KEY + this.isoCode
     );
 
     setTimeout(() => {
