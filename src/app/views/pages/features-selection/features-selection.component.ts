@@ -44,6 +44,7 @@ export class FeaturesSelectionComponent implements OnInit, AfterViewInit {
   ];
 
   loadingMessage: string;
+  goBackLink: string;
 
   isoCode = '';
   startDate = '';
@@ -450,9 +451,12 @@ export class FeaturesSelectionComponent implements OnInit, AfterViewInit {
 
             // Removing not used columns for unemployment rate model
             if (this.type == Constants.UNEMPLOYMENT_FEATURES_TYPE) {
+              this.goBackLink = '/unemployment-rate';
               this.features.unemployment = this.features.unemployment.filter(
                 (el) => !this.features_to_drop_unemployment.includes(el.name)
               );
+            } else {
+              this.goBackLink = '/reproduction-rate';
             }
 
             // Getting variable features
@@ -460,7 +464,7 @@ export class FeaturesSelectionComponent implements OnInit, AfterViewInit {
               .getVariableFeatures(this.isoCode, this.startDate, this.endDate)
               .subscribe((data: VariableFeatures) => {
                 console.log(data);
-                
+
                 this.dates = data.dates;
 
                 this.updateCategory('policies', data.policies);
@@ -541,12 +545,23 @@ export class FeaturesSelectionComponent implements OnInit, AfterViewInit {
 
   public clearStorage() {
     localStorage.removeItem(Constants.CONSTANT_FEATURES_ID + this.isoCode);
-    localStorage.removeItem(Constants.VARIABLE_FEATURES_ID + this.isoCode);
+
     localStorage.removeItem(
-      Constants.REPRODUCTION_PREDICTION_KEY + this.isoCode
+      Constants.VARIABLE_FEATURES_ID +
+        this.startDate +
+        this.endDate +
+        this.isoCode
+    );
+    localStorage.removeItem(
+      Constants.REPRODUCTION_PREDICTION_KEY +
+        this.startDate +
+        this.endDate +
+        this.isoCode
     );
 
-    this.init();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   }
 
   public predict() {
@@ -576,7 +591,10 @@ export class FeaturesSelectionComponent implements OnInit, AfterViewInit {
     };
 
     localStorage.setItem(
-      Constants.VARIABLE_FEATURES_ID + this.isoCode,
+      Constants.VARIABLE_FEATURES_ID +
+        this.startDate +
+        this.endDate +
+        this.isoCode,
       JSON.stringify(variableFeaturesToStore)
     );
 
@@ -602,7 +620,10 @@ export class FeaturesSelectionComponent implements OnInit, AfterViewInit {
         .subscribe((result) => {
           console.log(result);
           localStorage.setItem(
-            Constants.REPRODUCTION_PREDICTION_KEY + this.isoCode,
+            Constants.REPRODUCTION_PREDICTION_KEY +
+              this.startDate +
+              this.endDate +
+              this.isoCode,
             JSON.stringify(result)
           );
           this.router.navigate(['/reproduction-rate']);

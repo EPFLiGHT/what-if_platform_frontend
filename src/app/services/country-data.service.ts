@@ -39,7 +39,7 @@ export class CountryDataService {
     endpoint = '/get_variable_data'
   ) {
     let savedData = localStorage.getItem(
-      Constants.VARIABLE_FEATURES_ID + country
+      Constants.VARIABLE_FEATURES_ID + start_date + end_date + country
     );
     if (savedData) {
       return new Observable<VariableFeatures>((observer) => {

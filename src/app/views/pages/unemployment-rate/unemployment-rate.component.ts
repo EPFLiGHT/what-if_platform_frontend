@@ -44,7 +44,6 @@ export class UnemploymentRateComponent implements OnInit {
   selectedCountryObject: Country;
   selectedCountryId: number;
 
-  customPredictions: boolean;
   isOriginalData: boolean;
 
   loadingMessagePredictions: string;
@@ -147,15 +146,6 @@ export class UnemploymentRateComponent implements OnInit {
   }
 
   private updateChart(forceOriginal = false) {
-    if (
-      localStorage.getItem(
-        Constants.UNEMPLOYMENT_PREDICTION_KEY +
-          this.selectedCountryObject.iso_code
-      )
-    ) {
-      this.customPredictions = true;
-    }
-
     if (!this.loadPredictions(forceOriginal)) {
       this.barChart = new BarChart();
 

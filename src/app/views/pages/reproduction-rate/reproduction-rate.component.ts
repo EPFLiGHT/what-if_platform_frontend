@@ -72,7 +72,6 @@ export class ReproductionRateComponent implements OnInit {
 
   selectedPeriod: string;
 
-  customPredictions: boolean;
   isOriginalData: boolean;
 
   loadingMessagePredictions: string;
@@ -109,16 +108,18 @@ export class ReproductionRateComponent implements OnInit {
       : Constants.DEFAULT_TO_DATE;
 
     this.loadingMessageCountries = 'Loading countries...';
-    this.countryService.getCountries('reproduction').subscribe((countries: Country[]) => {
-      this.countries = countries;
-      this.loadingMessageCountries = null;
-      this.countryLoaded = true;
+    this.countryService
+      .getCountries('reproduction')
+      .subscribe((countries: Country[]) => {
+        this.countries = countries;
+        this.loadingMessageCountries = null;
+        this.countryLoaded = true;
 
-      this.ngAfterViewInit();
+        this.ngAfterViewInit();
 
-      this.saveCountry(true);
-      this.savePeriod(true);
-    });
+        this.saveCountry(true);
+        this.savePeriod(true);
+      });
   }
 
   ngAfterViewInit() {
@@ -132,7 +133,7 @@ export class ReproductionRateComponent implements OnInit {
 
     BarChart.colors[0].backgroundColor = purple_orange_gradient;
 
-    console.log(ctx.canvas)
+    console.log(ctx.canvas);
   }
 
   public onSwitchClick() {
@@ -156,11 +157,14 @@ export class ReproductionRateComponent implements OnInit {
 
   private loadPredictions(forceOriginal = false): boolean {
     let predictionsString = localStorage.getItem(
-      Constants.REPRODUCTION_PREDICTION_KEY + this.selectedCountryObject.iso_code
+      Constants.REPRODUCTION_PREDICTION_KEY +
+        this.getStartDate() + this.getEndDate() +
+        this.selectedCountryObject.iso_code
     );
     if (predictionsString && !forceOriginal) {
       this.chart = JSON.parse(predictionsString);
       this.isOriginalData = false;
+
       return true;
     }
     this.isOriginalData = true;
@@ -208,7 +212,8 @@ export class ReproductionRateComponent implements OnInit {
       );
 
       localStorage.setItem(
-        Constants.SELECTED_COUNTRY_ID_KEY + Constants.REPRODUCTION_FEATURES_TYPE,
+        Constants.SELECTED_COUNTRY_ID_KEY +
+          Constants.REPRODUCTION_FEATURES_TYPE,
         this.selectedCountryId.toString()
       );
 
@@ -230,23 +235,17 @@ export class ReproductionRateComponent implements OnInit {
   }
 
   public savePeriod(result: boolean) {
-    this.selectedPeriod =
-      this.formatDate(this.getStartDate(), 'dd/MM/yyyy') +
-      ' - ' +
-      this.formatDate(this.getEndDate(), 'dd/MM/yyyy');
+    if (result) {
+      this.selectedPeriod =
+        this.formatDate(this.getStartDate(), 'dd/MM/yyyy') +
+        ' - ' +
+        this.formatDate(this.getEndDate(), 'dd/MM/yyyy');
 
-    localStorage.setItem(Constants.FROM_DATE_KEY, this.getStartDate());
-    localStorage.setItem(Constants.TO_DATE_KEY, this.getEndDate());
+      localStorage.setItem(Constants.FROM_DATE_KEY, this.getStartDate());
+      localStorage.setItem(Constants.TO_DATE_KEY, this.getEndDate());
 
-    this.updateChart();
-  }
-
-  private isEqual(d1: Date, d2: Date) {
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
-    );
+      this.updateChart();
+    }
   }
 
   public formatDate(date: string | Date, format = 'yyyy-MM-dd') {
@@ -278,14 +277,6 @@ export class ReproductionRateComponent implements OnInit {
   }
 
   private updateChart(forceOriginal = false) {
-    if (
-      localStorage.getItem(
-        Constants.REPRODUCTION_PREDICTION_KEY + this.selectedCountryObject.iso_code
-      )
-    ) {
-      this.customPredictions = true;
-    }
-
     if (!this.loadPredictions(forceOriginal)) {
       this.chart = new Chart();
 
